@@ -104,7 +104,7 @@ class TransactionInfo extends Component {
             for (var i = 0; i < count; i++) {
                 var request = await this.state.LandInstance.methods.getRequestDetails(i + 1).call();
                 var approved = await this.state.LandInstance.methods.isApproved(i + 1).call();
-                // console.log(approved);
+                console.log('approvred', approved);
                 // console.log(request[3]);
                 var disabled = request[3] && completed;
                 console.log("Disabled: ", disabled);
@@ -112,6 +112,7 @@ class TransactionInfo extends Component {
                 console.log("completed: ", completed);
 
                 var owner = await this.state.LandInstance.methods.getLandOwner(i + 1).call();
+                console.log('approved', approved)
                 landTable.push(<tr><td>{i + 1}</td><td>{owner}</td><td>{rowsArea[i]}</td><td>{rowsCity[i]}</td><td>{rowsState[i]}</td><td>{rowsPrice[i]}</td><td>{rowsPID[i]}</td><td>{rowsSurvey[i]}</td>
                     <td>
                         <Button onClick={this.landTransfer(i + 1, request[1])} disabled={!disabled} className="button-vote">
@@ -119,6 +120,8 @@ class TransactionInfo extends Component {
                         </Button>
                     </td>
                 </tr>)
+
+
 
 
             }

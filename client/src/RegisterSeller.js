@@ -20,6 +20,8 @@ class RegisterSeller extends Component {
             web3: null,
             name: '',
             age: '',
+            city: 'kochi',
+            email: 'test@gmail.com',
             aadharNumber: '',
             panNumber: '',
             landsOwned: '',
@@ -90,13 +92,15 @@ class RegisterSeller extends Component {
         } else if (!Number(this.state.age) || this.state.age < 21) {
             alert("Your age must be a number");
         } else {
-            await this.state.LandInstance.methods.registerSeller(
+            await this.state.LandInstance.methods.registerUser(
                 this.state.name,
                 this.state.age,
+                this.state.city,
                 this.state.aadharNumber,
                 this.state.panNumber,
                 this.state.landsOwned,
-                this.state.document)
+                this.state.document,
+                this.state.email)
                 .send({
                     from: this.state.account,
                     gas: 2100000

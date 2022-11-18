@@ -125,17 +125,17 @@ class LIDashboard extends Component {
                     <div className="content">
                         <div className="main-section">
                             <Row>
-                                <Col lg="4">
+                                {/* <Col lg="4">
                                     <div class="dashbord dashbord-skyblue">
                                         <div class="icon-section">
-                                            {/* <i class="fa fa-users" aria-hidden="true"></i><br /> */}
+                                            <i class="fa fa-users" aria-hidden="true"></i><br />
                                             <medium>Total Buyers</medium><br />
                                             <p> {buyerarr} </p>
                                         </div>
                                         <div class="detail-section"><br />
                                         </div>
                                     </div>
-                                </Col>
+                                </Col> */}
                                 <Col lg="4">
                                     <div class="dashbord dashbord-blue">
                                         <div class="icon-section">
@@ -152,7 +152,7 @@ class LIDashboard extends Component {
                                     <div class="dashbord dashbord-orange">
                                         <div class="icon-section">
                                             {/* <i class="fa fa-users" aria-hidden="true"></i><br /> */}
-                                            <medium>Total Sellers</medium><br />
+                                            <medium>Total Users</medium><br />
                                             <p>{sellerarr}</p>
                                         </div>
                                         <div class="detail-section"><br />
@@ -162,7 +162,7 @@ class LIDashboard extends Component {
                             </Row>
                         </div>
                         <Row>
-                            <Col lg="4">
+                            {/* <Col lg="4">
                                 <div className='card-specific'>
                                     <Card >
                                         <CardHeader>
@@ -178,7 +178,7 @@ class LIDashboard extends Component {
                                         </CardBody>
                                     </Card>
                                 </div>
-                            </Col>
+                            </Col> */}
                             <Col lg="4">
                                 <div className='card-specific'>
                                     <Card>
@@ -200,13 +200,13 @@ class LIDashboard extends Component {
                                 <div className='card-specific'>
                                     <Card>
                                         <CardHeader>
-                                            <h5 className="title">Sellers Information</h5>
+                                            <h5 className="title">User's Information</h5>
                                         </CardHeader>
                                         <CardBody>
                                             <div className="chart-area">
 
                                                 <Button href="/LI/SellerInfo" className="btn-fill" color="primary">
-                                                    Verify Sellers
+                                                    Verify Users
                                                 </Button>
                                             </div>
                                         </CardBody>

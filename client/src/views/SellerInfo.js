@@ -91,46 +91,48 @@ class SellerInfo extends Component {
 
 
             sellersCount = await this.state.LandInstance.methods.getSellersCount().call();
-            console.log(sellersCount);
+            console.log('sellersCount', sellersCount);
 
 
 
             sellersMap = await this.state.LandInstance.methods.getSeller().call();
+            console.log('seelersMap ', sellersMap);
 
             var verified = await this.state.LandInstance.methods.isLandInspector(currentAddress).call();
             //console.log(verified);
             this.setState({ verified: verified });
-
-
-            for (let i = 0; i < sellersCount; i++) {
+            for (var i = 0; i < sellersCount; i++) {
                 var seller = await this.state.LandInstance.methods.getSellerDetails(sellersMap[i]).call();
-                console.log(seller);
+                console.log('sellerDetails ', seller);
                 var seller_verify = await this.state.LandInstance.methods.isVerified(sellersMap[i]).call();
-                console.log(seller_verify);
+                console.log('sellerVerified: ', seller_verify);
                 seller.verified = seller_verify;
 
                 //seller.push(seller_verify);
                 var not_verify = await this.state.LandInstance.methods.isRejected(sellersMap[i]).call();
-                console.log(not_verify);
+                console.log('sellerRejected: ', not_verify);
 
 
+                if (!seller.verified) {
+                    sellerTable.push(<tr key={sellersMap[i]}><td>{i + 1}</td><td>{sellersMap[i]}</td><td>{seller[0]}</td><td>{seller[1]}</td><td>{seller[2]}</td><td>{seller[3]}</td><td>{seller[4]}</td><td><a href={`https://ipfs.io/ipfs/${seller[5]}`} target="_blank">Click Here</a></td>
+                        <td>{seller.verified.toString()}</td>
+                        <td>
+                            <Button onClick={this.verifySeller(sellersMap[i])} disabled={seller_verify || not_verify} className="button-vote">
+                                Verify
+                            </Button>
+                        </td>
+                        <td>
+                            <Button onClick={this.NotverifySeller(sellersMap[i])} disabled={seller_verify || not_verify} className="btn btn-danger">
+                                Reject
+                            </Button>
+                        </td></tr>)
+                }
 
-                sellerTable.push(<tr><td>{i + 1}</td><td>{sellersMap[i]}</td><td>{seller[0]}</td><td>{seller[1]}</td><td>{seller[2]}</td><td>{seller[3]}</td><td>{seller[4]}</td><td><a href={`https://ipfs.io/ipfs/${seller[5]}`} target="_blank">Click Here</a></td>
-                    <td>{seller.verified.toString()}</td>
-                    <td>
-                        <Button onClick={this.verifySeller(sellersMap[i])} disabled={seller_verify || not_verify} className="button-vote">
-                            Verify
-                        </Button>
-                    </td>
-                    <td>
-                        <Button onClick={this.NotverifySeller(sellersMap[i])} disabled={seller_verify || not_verify} className="btn btn-danger">
-                            Reject
-                        </Button>
-                    </td></tr>)
                 console.log(seller[5]);
 
 
             }
+            console.log('size', sellerTable.length);
 
 
 
@@ -188,10 +190,10 @@ class SellerInfo extends Component {
                             <Col xs="12">
                                 <Card>
                                     <CardHeader>
-                                        <CardTitle tag="h4">Sellers Info</CardTitle>
+                                        <CardTitle tag="h4">User Info</CardTitle>
                                     </CardHeader>
                                     <CardBody>
-                                        <Table sclassName="tablesorter" responsive color="black">
+                                        <Table className="tablesorter" responsive color="black">
                                             <thead className="text-primary">
                                                 <tr>
                                                     <th>#</th>

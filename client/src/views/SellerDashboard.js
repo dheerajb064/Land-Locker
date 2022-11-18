@@ -50,6 +50,27 @@ class SDash extends Component {
     })
   }
 
+  requestLand = (seller_address, land_id) => async () => {
+
+    console.log(seller_address);
+    console.log(land_id);
+    // this.setState({requested: true});
+    // requested = true;
+    await this.state.LandInstance.methods.requestLand(
+      seller_address,
+      land_id
+    ).send({
+      from: this.state.account,
+      gas: 2100000
+    }).then(response => {
+      this.props.history.push("#");
+    });
+
+    //Reload
+    window.location.reload(false);
+
+  }
+
   componentDidMount = async () => {
     //For refreshing page only once
     if (!window.location.hash) {
@@ -71,7 +92,7 @@ class SDash extends Component {
       );
 
       const currentAddress = await web3.currentProvider.selectedAddress;
-      console.log(currentAddress);
+      console.log('currentAdddress: ', currentAddress);
       this.setState({ LandInstance: instance, web3: web3, account: accounts[0] });
       verified = await this.state.LandInstance.methods.isVerified(currentAddress).call();
       console.log(verified);
@@ -96,6 +117,13 @@ class SDash extends Component {
       var rowsPrice = [];
       var rowsPID = [];
       var rowsSurvey = [];
+      var dict = {}
+      for (var i = 1; i < count + 1; i++) {
+        var address = await this.state.LandInstance.methods.getLandOwner(i).call();
+        dict[i] = address;
+      }
+
+      console.log('dict', dict);
 
 
       for (var i = 1; i < count + 1; i++) {
@@ -105,11 +133,18 @@ class SDash extends Component {
         rowsPrice.push(<ContractData contract="Land" method="getPrice" methodArgs={[i, { from: "0xa42A8B478E5e010609725C2d5A8fe6c0C4A939cB" }]} />);
         rowsPID.push(<ContractData contract="Land" method="getPID" methodArgs={[i, { from: "0xa42A8B478E5e010609725C2d5A8fe6c0C4A939cB" }]} />);
         rowsSurvey.push(<ContractData contract="Land" method="getSurveyNumber" methodArgs={[i, { from: "0xa42A8B478E5e010609725C2d5A8fe6c0C4A939cB" }]} />);
+
       }
 
 
       for (var i = 0; i < count; i++) {
+        var requested = await this.state.LandInstance.methods.isRequested(i + 1).call();
         row.push(<tr><td>{i + 1}</td><td>{rowsArea[i]}</td><td>{rowsCity[i]}</td><td>{rowsState[i]}</td><td>{rowsPrice[i]}</td><td>{rowsPID[i]}</td><td>{rowsSurvey[i]}</td>
+          <td>
+            <Button onClick={this.requestLand(dict[i + 1], i + 1)} disabled={!verified || requested || dict[i + 1].toLowerCase() == currentAddress} className="button-vote">
+              Request Land
+            </Button>
+          </td>
         </tr>)
 
       }
@@ -251,6 +286,40 @@ class SDash extends Component {
                 </CardBody>
               </Card>
             </Col>
+            <Col lg="4">
+              <div className='card-specific'>
+                <Card>
+                  <CardHeader>
+                    <h5 className="title">Make Payments for Approved Land Requests</h5>
+                  </CardHeader>
+                  <CardBody>
+                    <div className="chart-area">
+
+                      <Button href="/admin/MakePayment" className="btn-fill" disabled={!this.state.verified} color="primary">
+                        Make Payment
+                      </Button>
+                    </div>
+                  </CardBody>
+                </Card>
+              </div>
+            </Col>
+            <Col lg="4">
+              <div className='card-specific'>
+                <Card>
+                  <CardHeader>
+                    <h5 className="title">Owned Lands</h5>
+                  </CardHeader>
+                  <CardBody>
+                    <div className="chart-area">
+
+                      <Button href="/admin/OwnedLands" className="btn-fill" color="primary">
+                        View Your Lands
+                      </Button>
+                    </div>
+                  </CardBody>
+                </Card>
+              </div>
+            </Col>
           </Row>
 
           <DrizzleProvider options={drizzleOptions}>
@@ -273,6 +342,7 @@ class SDash extends Component {
                             <th>Price</th>
                             <th>Property PID</th>
                             <th>Survey Number</th>
+                            <th>Actions</th>
                           </tr>
                         </thead>
                         <tbody>

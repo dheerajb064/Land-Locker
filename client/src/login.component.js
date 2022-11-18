@@ -12,8 +12,8 @@ export default class Login extends Component {
     constructor() {
         super();
         this.state = {
-            role: null,
-            redirect: null,
+            role: 'Seller',
+            redirect: '/RegisterSeller',
             landInspector: '',
             seller: '',
             buyer: '',
@@ -106,9 +106,11 @@ export default class Login extends Component {
                     <div className="auth-wrapper">
                         <div className="auth-inner">
                             <h1>You are already registered.</h1>
-                            <Button href="/Seller/SellerDashboard" disabled={!this.state.seller} className="btn-block" style={{ margin: "2px", backgroundColor: "peru" }} >Seller Dashboard</Button>
-                            <br /><Button href="/admin/dashboard" disabled={!this.state.buyer} className="btn-block" style={{ margin: "2px", backgroundColor: "peru" }}>Buyer Dashboard</Button>
-                            <br /><Button href="/LI/LIdashboard" disabled={!this.state.landInspector} className="btn-block" style={{ margin: "2px", backgroundColor: "peru" }}>Land Inspector Dashboard</Button>
+                            {/* <Button href="/Seller/SellerDashboard" disabled={!this.state.seller} className="btn-block" style={{ margin: "2px", backgroundColor: "peru" }} >Seller Dashboard</Button>
+                            <br /><Button href="/admin/dashboard" disabled={!this.state.buyer} className="btn-block" style={{ margin: "2px", backgroundColor: "peru" }}>Buyer Dashboard</Button> */}
+                            <Button href="/Seller/SellerDashboard" disabled={!this.state.seller || !this.state.buyer} className="btn-block" style={{ margin: "2px", backgroundColor: "peru" }} >User Dashboard</Button>
+                            <br />
+                            <Button href="/LI/LIdashboard" disabled={!this.state.landInspector} className="btn-block" style={{ margin: "2px", backgroundColor: "peru" }}>Land Inspector Dashboard</Button>
                         </div>
                     </div>
                 </div>
@@ -138,12 +140,12 @@ export default class Login extends Component {
                                 }}
                             /> */}
 
-                            <div class="form-group" style={{ color: "black" }}>
-                                {/* <select id="Company" class="form-control" name="Company" onChange={this.handleInputChange}>
+                            {/* <div class="form-group" style={{ color: "black" }}>
+                                <select id="Company" class="form-control" name="Company" onChange={this.handleInputChange}>
                                     <option selected="true" disabled="disabled">Select Role</option>
                                     <option value="Buyer">Buyer</option>
                                     <option value="Seller">Seller</option>
-                                </select> */}
+                                </select>
                                 <div className="d-grid gap-2">
                                     <Button variant={this.state.color1} size="lg" value="Buyer" onClick={this.handleInputChange} style={{ marginRight: '100px', marginLeft: '60px' }}>
                                         Buyer
@@ -154,7 +156,7 @@ export default class Login extends Component {
                                 </div>
 
 
-                            </div>
+                            </div> */}
 
                             <div>
                                 <button onClick={() => this.submit()} className="btn btn-primary btn-block" style={{ marginBottom: "10px", marginTop: "10px" }}>Register</button>
