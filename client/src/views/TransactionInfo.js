@@ -13,6 +13,8 @@ import Land from "../artifacts/Land.json";
 import getWeb3 from "../getWeb3";
 import '../index.css';
 
+import emailjs from '@emailjs/browser';
+
 
 
 const drizzleOptions = {
@@ -35,8 +37,35 @@ class TransactionInfo extends Component {
         }
     }
 
-    landTransfer = (landId, newOwner) => async () => {
+    sendEmail = (oldEmail, newEmail) => {
+        console.log(oldEmail, newEmail);
+        var templateParams = {
+            message: 'The Land Transaction is complete. Please download the receipt at your dashboard.',
+            send_to: oldEmail
+        };
+        emailjs.send("service_5fa6xbj", "template_h6rgcxz", templateParams, "DKGUPl8O3j3y9TFFe")
+            .then(function (response) {
+                console.log('SUCCESS!', response.status, response.text);
+            }, function (error) {
+                console.log('FAILED...', error);
+            });
+        templateParams = {
+            message: 'The Land Transaction is complete. Please download the receipt at your dashboard.',
+            send_to: newEmail
+        };
+        emailjs.send("service_5fa6xbj", "template_h6rgcxz", templateParams, "DKGUPl8O3j3y9TFFe")
+            .then(function (response) {
+                console.log('SUCCESS!', response.status, response.text);
+            }, function (error) {
+                console.log('FAILED...', error);
+            });
+    }
 
+    landTransfer = (landId, newOwner) => async () => {
+        const current_owner = await this.state.LandInstance.methods.getLandOwner(landId).call();
+        console.log('current ', current_owner)
+        const oldowner_email = await this.state.LandInstance.methods.getBuyerDetails(current_owner).call();
+        const newowner_email = await this.state.LandInstance.methods.getBuyerDetails(newOwner).call();
         await this.state.LandInstance.methods.LandOwnershipTransfer(
             landId, newOwner
         ).send({
@@ -49,8 +78,9 @@ class TransactionInfo extends Component {
         // this.setState({completed:false});
         completed = false;
         console.log(completed);
+        // const buyer = await this.state.LandInstance.methods.getBuyerDetails()
 
-        window.location.reload(false);
+        this.sendEmail(oldowner_email[4], newowner_email[4]);
 
     }
 

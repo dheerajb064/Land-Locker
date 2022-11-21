@@ -87,6 +87,7 @@ export default class Login extends Component {
 
     }
     submit() {
+
         this.props.history.push(this.state.redirect);
         window.location.reload(false);
 

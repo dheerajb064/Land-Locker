@@ -37687,12 +37687,12 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0x17BB4514e917b1C089D7F91E2522edb5c56A1FC3",
-      "transactionHash": "0x66282009488adc8569c6ca30b3dcb3abd5089448f8a36a82b52bdfda4fc09ca9"
+      "address": "0x309192207C134645fE4c16Cc4E8DBaee7bB1876e",
+      "transactionHash": "0x68b04994120f0ff64c1e51d99c71a6c436726f1ae7e5c6d8fdc53d348897b94f"
     }
   },
   "schemaVersion": "3.4.8",
-  "updatedAt": "2022-11-18T03:38:46.001Z",
+  "updatedAt": "2022-11-21T08:27:34.208Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {}

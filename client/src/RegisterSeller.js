@@ -10,6 +10,7 @@ import './index.css'
 
 //import Navigation from './Navigation'
 
+
 class RegisterSeller extends Component {
     constructor(props) {
         super(props)
@@ -21,7 +22,7 @@ class RegisterSeller extends Component {
             name: '',
             age: '',
             city: 'kochi',
-            email: 'test@gmail.com',
+            email: '',
             aadharNumber: '',
             panNumber: '',
             landsOwned: '',
@@ -83,7 +84,7 @@ class RegisterSeller extends Component {
         this.addDoc();
         // alert('After add image')
         await new Promise(resolve => setTimeout(resolve, 10000));
-        if (this.state.name == '' || this.state.age == '' || this.state.aadharNumber == '' || this.state.panNumber == '' || this.state.landsOwned == '') {
+        if (this.state.name == '' || this.state.age == '' || this.state.aadharNumber == '' || this.state.panNumber == '' || this.state.landsOwned == '' || this.state.email == '') {
             alert("All the fields are compulsory!");
         } else if (!Number(this.state.aadharNumber) || this.state.aadharNumber.length != 12) {
             alert("Aadhar Number should be 12 digits long!");
@@ -109,6 +110,7 @@ class RegisterSeller extends Component {
                 });
 
             //Reload
+
             window.location.reload(false);
         }
     }
@@ -127,6 +129,9 @@ class RegisterSeller extends Component {
     )
     updateOwnedLands = event => (
         this.setState({ landsOwned: event.target.value })
+    )
+    updateEmail = event => (
+        this.setState({ email: event.target.value })
     )
     captureDoc(event) {
         event.preventDefault()
@@ -181,8 +186,8 @@ class RegisterSeller extends Component {
 
                             <div>
                                 <div>
-                                    <h1 style={{ color: "black" }}>
-                                        Seller Registration
+                                    <h1 style={{ color: "black", marginLeft: '80px', marginBottom: '15px' }}>
+                                        Registration
                                     </h1>
                                 </div>
                             </div>
@@ -285,6 +290,15 @@ class RegisterSeller extends Component {
                                         variant="outlined"
                                         value={this.state.age}
                                         onChange={this.updateAge}
+                                    />
+                                </Grid>
+                                <Grid item xs={12} sm={12}>
+                                    <TextField
+                                        id="outlined-basic"
+                                        label="Email"
+                                        variant="outlined"
+                                        value={this.state.email}
+                                        onChange={this.updateEmail}
                                     />
                                 </Grid>
                                 <Grid item xs={12} sm={12}>
