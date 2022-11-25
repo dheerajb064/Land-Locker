@@ -13,6 +13,7 @@ contract Land {
         string document;
     }
 
+
     struct Buyer{
         address id;
         string name;
@@ -66,6 +67,8 @@ contract Land {
     mapping(address => bool) public BuyerRejection;
     mapping(uint => bool) public LandVerification;
     mapping(uint => address) public LandOwner;
+    //mapping(address => address) public Successor;
+
     mapping(uint => bool) public RequestStatus;
     mapping(uint => bool) public RequestedLands;
     mapping(uint => bool) public PaymentReceived;
@@ -86,6 +89,7 @@ contract Land {
     event requestApproved(address _buyerId);
     event Verified(address _id);
     event Rejected(address _id);
+    //event Succession(address _id);
 
     constructor() public{
         Land_Inspector = msg.sender ;
@@ -262,7 +266,7 @@ contract Land {
         return (SellerMapping[i].name, SellerMapping[i].age, SellerMapping[i].aadharNumber, SellerMapping[i].panNumber, SellerMapping[i].landsOwned, SellerMapping[i].document);
     }
 
-    function registerBuyer(string memory _name, uint _age, string memory _city, string memory _aadharNumber, string memory _panNumber, string memory _document, string memory _email) public {
+    function registerBuyer(string memory _name, uint _age, string memory _city, string memory _aadharNumber, string memory _panNumber, string memory _document, string memory _email,address _succ) public {
         //require that Buyer is not already registered
         require(!RegisteredAddressMapping[msg.sender]);
 
@@ -271,6 +275,7 @@ contract Land {
         buyersCount++;
         BuyerMapping[msg.sender] = Buyer(msg.sender, _name, _age, _city, _aadharNumber, _panNumber, _document, _email);
         buyers.push(msg.sender);
+        //Successor[msg.sender]=succ;
 
         emit Registration(msg.sender);
     }
@@ -337,13 +342,33 @@ contract Land {
         LandOwner[_landId] = _newOwner;
     }
 
+    /*
+    function AfterDeath(address Owner) public
+    {
+        require(isLandInspector(msg.sender));
+
+        uint i;
+        for(i=1;i<=landsCount;i++)
+        {
+            if(LandOwner[i]==Owner)
+            {
+                LandOwner[i]=Successor[Owner];
+            }
+        }
+
+        emit Succession(Owner);
+
+    }
+    */
+
     function isPaid(uint _landId) public view returns (bool) {
         if(PaymentReceived[_landId]){
             return true;
         }
     }
 
-    function payment(address payable _receiver, uint _landId) public payable {
+    function payment(address payable _receiver, uint _landId) public payable 
+    {
         PaymentReceived[_landId] = true;
         _receiver.transfer(msg.value);
     }
