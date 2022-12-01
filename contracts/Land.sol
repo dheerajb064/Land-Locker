@@ -12,6 +12,7 @@ contract Land {
         uint256 physicalSurveyNumber;
         string ipfsHash;
         string document;
+        address old_owner;
     }
 
     struct Buyer {
@@ -92,6 +93,20 @@ contract Land {
         Land_Inspector = msg.sender;
         addLandInspector("Inspector 1", 45, "Tehsil Manager");
     }
+
+        function getPrevious(uint i) public view returns (address){
+        return lands[i].old_owner;
+    }
+
+    function isSame(uint i) public view returns (bool){
+        if(lands[i].old_owner==LandOwner[i])
+            return true;
+        else return false;
+    }
+
+    // function getDate(uint i) public view returns (uint){
+    //     return lands[i].date;
+    // }
 
     function addLandInspector(
         string memory _name,
@@ -242,29 +257,10 @@ contract Land {
         }
     }
 
-    function addLand(
-        uint256 _area,
-        string memory _city,
-        string memory _state,
-        uint256 landPrice,
-        uint256 _propertyPID,
-        uint256 _surveyNum,
-        string memory _ipfsHash,
-        string memory _document
-    ) public {
+        function addLand(uint _area, string memory _city,string memory _state, uint landPrice, uint _propertyPID,uint _surveyNum,string memory _ipfsHash, string memory _document) public {
         require((isSeller(msg.sender)) && (isVerified(msg.sender)));
         landsCount++;
-        lands[landsCount] = Landreg(
-            landsCount,
-            _area,
-            _city,
-            _state,
-            landPrice,
-            _propertyPID,
-            _surveyNum,
-            _ipfsHash,
-            _document
-        );
+        lands[landsCount] = Landreg(landsCount, _area, _city, _state, landPrice,_propertyPID, _surveyNum, _ipfsHash, _document,msg.sender);
         LandOwner[landsCount] = msg.sender;
         // emit AddingLand(landsCount);
     }
@@ -517,9 +513,9 @@ contract Land {
         RequestStatus[_reqId] = true;
     }
 
-    function LandOwnershipTransfer(uint256 _landId, address _newOwner) public {
+        function LandOwnershipTransfer(uint _landId, address _newOwner) public{
         require(isLandInspector(msg.sender));
-
+        lands[_landId].old_owner=LandOwner[_landId];
         LandOwner[_landId] = _newOwner;
     }
 

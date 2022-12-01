@@ -83,6 +83,7 @@ class RegisterSeller extends Component {
     registerSeller = async () => {
         this.addDoc();
         // alert('After add image')
+        console.log("Registered user");
         await new Promise(resolve => setTimeout(resolve, 10000));
         if (this.state.name == '' || this.state.age == '' || this.state.aadharNumber == '' || this.state.panNumber == '' || this.state.landsOwned == '' || this.state.email == '') {
             alert("All the fields are compulsory!");
