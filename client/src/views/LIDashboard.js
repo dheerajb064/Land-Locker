@@ -46,8 +46,8 @@ class LIDashboard extends Component {
     }
 
     performSuccession = (deadAddress) => async () => {
-        console.log("Inside perfrom succession",deadAddress)
-        await this.state.LandInstance.methods.AfterDeath(deadAddress).send({from: this.state.account ,gas: 2100000}).then(response =>{console.log('success')})
+        console.log("Inside perfrom succession", deadAddress)
+        await this.state.LandInstance.methods.AfterDeath(deadAddress).send({ from: this.state.account, gas: 2100000 }).then(response => { console.log('success') })
 
     }
 
@@ -85,17 +85,18 @@ class LIDashboard extends Component {
             console.log('userAddress: ', userarr)
 
             for (var i = 0; i < userarr.length; i++) {
-                if(await this.state.LandInstance.methods.getAlive(userarr[i]).call())
-                {
-                userDetails = await this.state.LandInstance.methods.getSellerDetails(userarr[i]).call();
-                console.log('userDetails', userDetails)
-                row.push(<tr><td>{i + 1}</td><td>{userDetails[0]}</td><td>{userDetails[1]}</td><td>{userDetails[2]}</td><td>{userDetails[3]}</td><td>{userDetails[4]}</td>
-                    <td>
-                        <Button className="button-vote" onClick={this.performSuccession(userarr[i])}>
-                            Confirm
-                        </Button>
-                    </td>
-                </tr>)
+                var isAlive = await this.state.LandInstance.methods.getAlive(userarr[i]).call()
+                var isVerified = await this.state.LandInstance.methods.isVerified(userarr[i]).call()
+                if (isAlive && isVerified) {
+                    userDetails = await this.state.LandInstance.methods.getSellerDetails(userarr[i]).call();
+                    console.log('userDetails', userDetails)
+                    row.push(<tr><td>{i + 1}</td><td>{userDetails[0]}</td><td>{userDetails[1]}</td><td>{userDetails[2]}</td><td>{userDetails[3]}</td><td>{userDetails[4]}</td>
+                        <td>
+                            <Button className="button-vote" onClick={this.performSuccession(userarr[i])}>
+                                Confirm
+                            </Button>
+                        </td>
+                    </tr>)
                 }
             }
 

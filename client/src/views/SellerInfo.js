@@ -34,6 +34,7 @@ class SellerInfo extends Component {
             sellers: 0,
             verified: '',
             not_verified: '',
+            check: false,
         }
     }
 
@@ -126,6 +127,7 @@ class SellerInfo extends Component {
                                 Reject
                             </Button>
                         </td></tr>)
+                    this.setState({ check: true });
                 }
 
                 console.log(seller[5]);

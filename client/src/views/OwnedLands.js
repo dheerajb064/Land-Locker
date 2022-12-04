@@ -31,7 +31,7 @@ const drizzleOptions = {
 var verified;
 var row = [];
 var old_owner, new_owner;
-var old_seller ,new_seller;
+var old_seller, new_seller;
 
 // const MyDoc = () => (
 //   // old_owner=await this.state.LandInstance.methods.getPrevious(landid).call();
@@ -59,6 +59,8 @@ class OwnedLands extends Component {
       count: 0,
       id: "",
       amount: 0,
+      check: false,
+      ready: false,
     };
   }
 
@@ -240,7 +242,7 @@ class OwnedLands extends Component {
           new_seller = await this.state.LandInstance.methods
             .getSellerDetails(new_owner)
             .call();
-          console.log(old_seller[0],new_seller[0]);
+          console.log(old_seller[0], new_seller[0]);
           row.push(
             <tr>
               <td>{i + 1}</td>
@@ -279,6 +281,7 @@ class OwnedLands extends Component {
               </td>
             </tr>
           );
+          this.setState({ ready: true })
         }
       }
       console.log(row);
@@ -323,7 +326,7 @@ class OwnedLands extends Component {
     }
 
     return (
-      <>
+      (this.state.ready ? <>
         <div className="content">
           <DrizzleProvider options={drizzleOptions}>
             <LoadingContainer>
@@ -347,7 +350,9 @@ class OwnedLands extends Component {
                             <th>Reciept</th>
                           </tr>
                         </thead>
-                        <tbody>{row}</tbody>
+                        <tbody>
+                          {row.map((ele) => { return <>{ele}</> })}
+                        </tbody>
                       </Table>
                     </CardBody>
                   </Card>
@@ -356,9 +361,11 @@ class OwnedLands extends Component {
             </LoadingContainer>
           </DrizzleProvider>
         </div>
-      </>
+      </> : <h1>varum</h1>)
+
     );
   }
 }
+
 
 export default OwnedLands;
