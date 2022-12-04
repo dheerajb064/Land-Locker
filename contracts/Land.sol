@@ -72,6 +72,7 @@ contract Land {
     mapping(uint256 => bool) public RequestedLands;
     mapping(uint256 => bool) public PaymentReceived;
     mapping(address=>address) public successors;
+    mapping(address => bool) public isAlive;
 
     address public Land_Inspector;
     address[] public sellers;
@@ -177,6 +178,11 @@ contract Land {
 
     function getLandOwner(uint256 id) public view returns (address) {
         return LandOwner[id];
+    }
+
+    function getAlive(address _Owner) public view returns (bool)
+    {
+        return isAlive[_Owner];
     }
 
     function verifySeller(address _sellerId) public {
@@ -412,6 +418,7 @@ contract Land {
         );
         sellers.push(msg.sender);
         successors[msg.sender]=_succ;
+        isAlive[msg.sender]=true;
         emit Registration(msg.sender,_succ);
     }
 
@@ -548,6 +555,7 @@ contract Land {
     {
         require(isLandInspector(msg.sender));
 
+        isAlive[_Owner]=false;
         uint i;
         for(i=1;i<=landsCount;i++)
         {
