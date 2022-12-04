@@ -30,8 +30,9 @@ const drizzleOptions = {
 
 var verified;
 var row = [];
-var old_owner, new_owner;
-var old_seller ,new_seller;
+var old_owner, new_owner,owner;
+var old_seller, new_seller;
+var area,pid,price;
 
 // const MyDoc = () => (
 //   // old_owner=await this.state.LandInstance.methods.getPrevious(landid).call();
@@ -75,8 +76,12 @@ class OwnedLands extends Component {
             {"\n\n"}Land Locker
           </Text>
           <Text style={{ textAlign: "center" }}>
-            The property has been transferred from {old_seller[0]}{old_owner} to {new_seller[0]}{new_owner}.
+            The property has been transferred from {old_owner} to {new_seller[0]}.
           </Text>
+          <Text style={{fontSize: "15px"}}>Land details</Text>
+          {/* <Text>Land Area: {area}</Text> */}
+          {/* <Text>{pid}</Text> */}
+          {/* <Text>Price : {price}</Text> */}
         </Page>
       </Document>
     );
@@ -166,6 +171,7 @@ class OwnedLands extends Component {
               { from: "0xa42A8B478E5e010609725C2d5A8fe6c0C4A939cB" },
             ]}
           />
+          //await this.state.LandInstance.methods.getArea(i).call()
         );
         rowsCity.push(
           <ContractData
@@ -196,6 +202,7 @@ class OwnedLands extends Component {
               { from: "0xa42A8B478E5e010609725C2d5A8fe6c0C4A939cB" },
             ]}
           />
+          //await this.state.LandInstance.methods.getPrice(i).call()
         );
         rowsPID.push(
           <ContractData
@@ -220,27 +227,37 @@ class OwnedLands extends Component {
       }
 
       for (var i = 0; i < count; i++) {
-        var owner = await this.state.LandInstance.methods
+        owner = await this.state.LandInstance.methods
           .getLandOwner(i + 1)
           .call();
         console.log(owner.toLowerCase());
         console.log(currentAddress);
+        old_owner = await this.state.LandInstance.methods
+          .getPrevious(i + 1)
+          .call();
+        new_owner = owner;
+        // old_seller = await this.state.LandInstance.methods
+        //   .getSellerDetails(old_owner)
+        //   .call();
+        new_seller = await this.state.LandInstance.methods
+          .getSellerDetails(owner)
+          .call();
+          console.log(old_seller, new_seller);
         if (owner.toLowerCase() == currentAddress) {
           var same = await this.state.LandInstance.methods.isSame(i + 1).call();
-          old_owner = await this.state.LandInstance.methods
-            .getPrevious(i + 1)
-            .call();
-          new_owner = await this.state.LandInstance.methods
-            .getLandOwner(i + 1)
-            .call();
-          console.log({ old_owner, new_owner });
-          old_seller = await this.state.LandInstance.methods
-            .getSellerDetails(old_owner)
-            .call();
-          new_seller = await this.state.LandInstance.methods
-            .getSellerDetails(new_owner)
-            .call();
-          console.log(old_seller[0],new_seller[0]);
+          area=rowsArea[i];
+          pid=rowsPID[i];
+          price=rowsPrice[i];
+          console.log(area);
+          console.log({ old_owner, owner });
+          // old_seller = await this.state.LandInstance.methods
+          //   .getSellerDetails(old_owner)
+          //   .call();
+          // new_seller = await this.state.LandInstance.methods
+          //   .getSellerDetails(owner)
+          //   .call();
+          //console.log(old_seller, new_seller);
+          // this.setState({ amount: 500 });
           row.push(
             <tr>
               <td>{i + 1}</td>
@@ -268,7 +285,7 @@ class OwnedLands extends Component {
                       </Button>
                     ) : (
                       <Button
-                        disabled={!verified || same}
+                        disabled={!verified }
                         className="button-vote"
                       >
                         Download
@@ -279,6 +296,7 @@ class OwnedLands extends Component {
               </td>
             </tr>
           );
+          console.log("loop", row.length);
         }
       }
       console.log(row);
@@ -292,6 +310,7 @@ class OwnedLands extends Component {
   };
 
   render() {
+    console.log("hey1");
     if (!this.state.web3) {
       return (
         <div>
@@ -321,7 +340,9 @@ class OwnedLands extends Component {
         </div>
       );
     }
-
+    // if (!this.state.amount) console.log("hey2");
+    //if(row.length!=0)
+    console.log("length", row.length);
     return (
       <>
         <div className="content">
@@ -358,6 +379,8 @@ class OwnedLands extends Component {
         </div>
       </>
     );
+
+    //return <h1>abh</h1>
   }
 }
 

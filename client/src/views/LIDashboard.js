@@ -71,7 +71,7 @@ class LIDashboard extends Component {
             sellerarr.push(<ContractData contract="Land" method="getSellersCount" />);
             buyerarr.push(<ContractData contract="Land" method="getBuyersCount" />);
             reqsarr.push(<ContractData contract="Land" method="getRequestsCount" />);
-
+                console.log(sellerarr[0],buyerarr[0],reqsarr[0]);
 
         } catch (error) {
             // Catch any errors for any of the above operations.

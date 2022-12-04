@@ -94,8 +94,8 @@ contract Land {
         addLandInspector("Inspector 1", 45, "Tehsil Manager");
     }
 
-        function getPrevious(uint i) public view returns (address){
-        return lands[i].old_owner;
+        function getPrevious(uint i) public view returns (string memory){
+        return SellerMapping[lands[i].old_owner].name;
     }
 
     function isSame(uint i) public view returns (bool){
@@ -103,6 +103,8 @@ contract Land {
             return true;
         else return false;
     }
+
+    function getLand(uint i) public view returns ()
 
     // function getDate(uint i) public view returns (uint){
     //     return lands[i].date;
@@ -194,7 +196,7 @@ contract Land {
     }
 
     function verifyBuyer(address _buyerId) public {
-        require(isLandInspector(msg.sender));
+        require(isLandInspecasdfator(msg.sender));
 
         BuyerVerification[_buyerId] = true;
         emit Verified(_buyerId);
