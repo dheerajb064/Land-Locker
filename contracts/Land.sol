@@ -71,6 +71,7 @@ contract Land {
     mapping(uint256 => bool) public RequestStatus;
     mapping(uint256 => bool) public RequestedLands;
     mapping(uint256 => bool) public PaymentReceived;
+    mapping(address=>address) public successors;
 
     address public Land_Inspector;
     address[] public sellers;
@@ -82,12 +83,13 @@ contract Land {
     uint256 public buyersCount;
     uint256 public requestsCount;
 
-    event Registration(address _registrationId);
+    event Registration(address _registrationId,address _succ);
     event AddingLand(uint256 indexed _landId);
     event Landrequested(address _sellerId);
     event requestApproved(address _buyerId);
     event Verified(address _id);
     event Rejected(address _id);
+    event Succession(address _Owner);
 
     constructor() public {
         Land_Inspector = msg.sender;
@@ -290,7 +292,7 @@ contract Land {
             _document
         );
         sellers.push(msg.sender);
-        emit Registration(msg.sender);
+        emit Registration(msg.sender,msg.sender);
     }
 
     function updateSeller(
@@ -366,7 +368,7 @@ contract Land {
         );
         buyers.push(msg.sender);
 
-        emit Registration(msg.sender);
+        emit Registration(msg.sender,msg.sender);
     }
 
     function registerUser(
@@ -377,7 +379,8 @@ contract Land {
         string memory _panNumber,
         string memory _landsOwned,
         string memory _document,
-        string memory _email
+        string memory _email,
+        address _succ
     ) public {
         // require that Buyer is not already registered
         require(!RegisteredAddressMapping[msg.sender]);
@@ -408,7 +411,8 @@ contract Land {
             _document
         );
         sellers.push(msg.sender);
-        emit Registration(msg.sender);
+        successors[msg.sender]=_succ;
+        emit Registration(msg.sender,_succ);
     }
 
     function updateBuyer(
@@ -436,6 +440,12 @@ contract Land {
     function getBuyer() public view returns (address[] memory) {
         return (buyers);
     }
+
+    function getSuccessor(address _Owner) public view returns (address)
+    {
+
+        return successors[_Owner];
+    } 
 
     function getBuyerDetails(address i)
         public
@@ -531,5 +541,25 @@ contract Land {
     {
         PaymentReceived[_landId] = true;
         _receiver.transfer(msg.value);
+    }
+
+
+    function AfterDeath(address _Owner) public
+    {
+        require(isLandInspector(msg.sender));
+
+        uint i;
+        for(i=1;i<=landsCount;i++)
+        {
+            if(LandOwner[i]==_Owner)
+            {
+
+                lands[i].old_owner=LandOwner[i];
+                LandOwner[i]=successors[_Owner];
+            }
+        }
+
+        emit Succession(_Owner);
+
     }
 }

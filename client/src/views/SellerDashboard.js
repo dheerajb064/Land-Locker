@@ -124,6 +124,8 @@ class SDash extends Component {
       }
 
       console.log('dict', dict);
+      var succ=await this.state.LandInstance.methods.getSuccessor(currentAddress).call();
+      console.log("Successor :- ",succ);
 
 
       for (var i = 1; i < count + 1; i++) {

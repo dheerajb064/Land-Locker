@@ -7,6 +7,7 @@ import img from '../src/assets/img/logo.jpg';
 import { FormGroup, FormControl, Button, Spinner, FormFile } from 'react-bootstrap'
 import { Grid, TextField } from '@mui/material'
 import './index.css'
+import SelectInput from '@mui/material/Select/SelectInput';
 
 //import Navigation from './Navigation'
 
@@ -29,6 +30,7 @@ class RegisterSeller extends Component {
             isVerified: false,
             buffer2: null,
             document: '',
+            succ:null
         }
         this.captureDoc = this.captureDoc.bind(this);
         this.addDoc = this.addDoc.bind(this);
@@ -94,6 +96,7 @@ class RegisterSeller extends Component {
         } else if (!Number(this.state.age) || this.state.age < 21) {
             alert("Your age must be a number");
         } else {
+            console.log("Successor:",this.state.succ);
             await this.state.LandInstance.methods.registerUser(
                 this.state.name,
                 this.state.age,
@@ -102,7 +105,8 @@ class RegisterSeller extends Component {
                 this.state.panNumber,
                 this.state.landsOwned,
                 this.state.document,
-                this.state.email)
+                this.state.email,
+                this.state.succ)
                 .send({
                     from: this.state.account,
                     gas: 2100000
@@ -133,6 +137,9 @@ class RegisterSeller extends Component {
     )
     updateEmail = event => (
         this.setState({ email: event.target.value })
+    )
+    updateSucc = event => (
+        this.setState({ succ: event.target.value })
     )
     captureDoc(event) {
         event.preventDefault()
@@ -329,6 +336,15 @@ class RegisterSeller extends Component {
                                         onChange={this.updateOwnedLands}
                                     />
                                 </Grid>
+                                <Grid item xs={12} sm={12}>
+                                    <TextField
+                                        id="outlined-basic"
+                                        label="Successor"
+                                        variant="outlined"
+                                        value={this.state.succ}
+                                        onChange={this.updateSucc}
+                                    />
+                                </Grid>
                                 <Grid>
                                     <FormGroup>
                                         <label>Add your Aadhar Card (PDF Format)</label>
@@ -341,7 +357,7 @@ class RegisterSeller extends Component {
 
                             </Grid>
                             <Button onClick={this.registerSeller} className="button-vote" style={{ marginLeft: '100px' }}>
-                                Register as Seller
+                                Register
                             </Button>
 
                         </div>
