@@ -74,7 +74,7 @@
   "sourceMap": "36:500:1:-;;;129:52;8:9:-1;5:2;;;30:1;27;20:12;5:2;-1:-1;157:5:1;:18;;-1:-1:-1;;;;;;157:18:1;165:10;157:18;;;36:500;;;;;;",
   "deployedSourceMap": "36:500:1:-;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;36:500:1;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;365:168;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;365:168:1;;;;:::i;:::-;;86:36;;;:::i;:::-;;;;;;;;;;;;;;;;61:20;;;:::i;:::-;;;;;;;;;;;;;;;;;;;254:105;;;;;;13:2:-1;8:3;5:11;2:2;;;29:1;26;19:12;2:2;-1:-1;254:105:1;;:::i;365:168::-;234:5;;;;220:10;:19;216:26;;;428:19;461:11;428:45;;480:8;:21;;;502:24;;480:47;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;480:47:1;;;;;;8:9:-1;5:2;;;30:1;27;20:12;5:2;480:47:1;;;;241:1;216:26;365:168;:::o;86:36::-;;;;:::o;61:20::-;;;;;;:::o;254:105::-;234:5;;;;220:10;:19;216:26;;;317:24;:36;254:105::o",
   "source": "pragma solidity >=0.4.21 <0.6.0;\r\n\r\ncontract Migrations {\r\n  address public owner;\r\n  uint public last_completed_migration;\r\n\r\n  constructor() public {\r\n    owner = msg.sender;\r\n  }\r\n\r\n  modifier restricted() {\r\n    if (msg.sender == owner) _;\r\n  }\r\n\r\n  function setCompleted(uint completed) public restricted {\r\n    last_completed_migration = completed;\r\n  }\r\n\r\n  function upgrade(address new_address) public restricted {\r\n    Migrations upgraded = Migrations(new_address);\r\n    upgraded.setCompleted(last_completed_migration);\r\n  }\r\n}\r\n",
-  "sourcePath": "D:\\CAT\\Land-Locker\\contracts\\Migrations.sol",
+  "sourcePath": "C:\\Users\\Dell\\Desktop\\landlocker\\Land-Locker\\contracts\\Migrations.sol",
   "ast": {
     "absolutePath": "project:/contracts/Migrations.sol",
     "exportedSymbols": {
@@ -1475,12 +1475,12 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0xd24dbe95F6363cBd99e4e051d7DD7B69265a768d",
-      "transactionHash": "0x6c876a24377d74037505cee4b9da8aca6e3d81689cd76f187c6a81f206ade9ff"
+      "address": "0xA8D114E301f0CA5471C90FDd7D179Ed75D1AE138",
+      "transactionHash": "0x0fcf83c2e0e932f1284e7d79a353b929553da59cc851b6e0da49f4bde7e1340c"
     }
   },
   "schemaVersion": "3.4.7",
-  "updatedAt": "2022-12-04T08:15:22.659Z",
+  "updatedAt": "2022-12-21T08:55:58.956Z",
   "networkType": "ethereum",
   "devdoc": {
     "methods": {}
