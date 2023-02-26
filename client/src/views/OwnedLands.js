@@ -1,6 +1,8 @@
 import { ContractData, LoadingContainer } from "@drizzle/react-components";
 import { DrizzleProvider } from "@drizzle/react-plugin";
 import React, { Component } from "react";
+import Logo from "./logo.jpg"
+import Sumesh from "./Sumesh-Divakarannew.jpg"
 import {
   ReactPDF,
   PDFDownloadLink,
@@ -8,11 +10,14 @@ import {
   Page,
   Text,
   View,
+  StyleSheet,
+  Image,
 } from "@react-pdf/renderer";
 import { Spinner } from "react-bootstrap";
 // reactstrap components
 import {
   Button,
+  ButtonToggle,
   Card,
   CardBody,
   CardHeader,
@@ -23,6 +28,14 @@ import {
 } from "reactstrap";
 import Land from "../artifacts/Land.json";
 import getWeb3 from "../getWeb3";
+import './pdf.css';
+
+const styles = StyleSheet.create({
+  image: {
+    width: 80,
+    height: 80,
+  },
+});
 
 const drizzleOptions = {
   contracts: [Land],
@@ -70,12 +83,31 @@ class OwnedLands extends Component {
     // console.log("mydoc");
     return (
       <Document>
-        <Page>
-          <Text style={{ fontSize: "20px", textAlign: "center" }}>
+        <Page style={{borderColor:"orange", borderWidth:"5px", borderStyle:"solid"}}>
+          <Image
+            style={styles.image}
+            src={Logo}
+          /> 
+          <Text style={{ fontSize: "20px",color:"blue", textAlign: "center" }}>
             {"\n\n"}Land Locker
           </Text>
-          <Text style={{ textAlign: "center" }}>
-            The property has been transferred from {old_seller[0]}{old_owner} to {new_seller[0]}{new_owner}.
+          <Text style={{ fontSize: "15px",color:"green", textAlign: "center" }}>
+           {"\n\n"}Transferred from:
+            {/* The property has been transferred from {old_seller[0]}{"\n\n"}
+            with ID {old_owner} to {new_seller[0]} with ID {new_owner} */}
+            <Text style={{fontSize: "10px",color:"red"}}>
+              {"\n\n"}Name: {old_seller[0]}
+              {"\n\n"}Public Key: {old_owner}
+            </Text>
+          </Text>
+          <Text style={{ fontSize: "15px", color:"green", textAlign: "center" }}>
+           {"\n\n"}Transferred to:
+            {/* The property has been transferred from {old_seller[0]}{"\n\n"}
+            with ID {old_owner} to {new_seller[0]} with ID {new_owner} */}
+            <Text style={{fontSize: "10px",color:"red"}}>
+              {"\n\n"}Name: {new_seller[0]}
+              {"\n\n"}Public Key: {new_owner}
+            </Text>
           </Text>
         </Page>
       </Document>

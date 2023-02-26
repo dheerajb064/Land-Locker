@@ -376,3 +376,7 @@ body, html, .App, #root, .auth-wrapper {
 .card-specific .card{
   align-items: center !important;
 }
+
+.button-vote{
+  background-color: #0e611c !important;
+}
