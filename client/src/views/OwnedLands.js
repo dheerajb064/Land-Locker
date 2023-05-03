@@ -369,7 +369,7 @@ class OwnedLands extends Component {
                       <Table className="tablesorter" responsive color="black">
                         <thead className="text-primary">
                           <tr>
-                            <th>#</th>
+                            <th>{row.length}</th>
                             <th>Area</th>
                             <th>City</th>
                             <th>State</th>

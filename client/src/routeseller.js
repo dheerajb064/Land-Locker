@@ -4,6 +4,7 @@ import ApproveRequest from "./views/ApproveRequest";
 import sellerProfile from "./views/sellerProfile";
 import viewImage from "./views/viewImage";
 import updateSeller from "./views/updateSeller";
+import viewMap from "./views/ViewMap";
 import Help from "./Help";
 
 var routes = [
@@ -61,6 +62,14 @@ var routes = [
     rtlName: "الرموز",
     icon: "tim-icons",
     component: updateSeller,
+    layout: "/Seller",
+  },
+  {
+    path: "/ViewMap",
+    name: "",
+    rtlName: "الرموز",
+    icon: "tim-icons",
+    component: viewMap,
     layout: "/Seller",
   },
 ];

@@ -13,6 +13,8 @@ contract Land {
         string ipfsHash;
         string document;
         address old_owner;
+        string lat;
+        string lng;
     }
 
     struct Buyer {
@@ -71,7 +73,7 @@ contract Land {
     mapping(uint256 => bool) public RequestStatus;
     mapping(uint256 => bool) public RequestedLands;
     mapping(uint256 => bool) public PaymentReceived;
-    mapping(address=>address) public successors;
+    mapping(address => address) public successors;
     mapping(address => bool) public isAlive;
 
     address public Land_Inspector;
@@ -84,7 +86,7 @@ contract Land {
     uint256 public buyersCount;
     uint256 public requestsCount;
 
-    event Registration(address _registrationId,address _succ);
+    event Registration(address _registrationId, address _succ);
     event AddingLand(uint256 indexed _landId);
     event Landrequested(address _sellerId);
     event requestApproved(address _buyerId);
@@ -97,13 +99,38 @@ contract Land {
         addLandInspector("Inspector 1", 45, "Tehsil Manager");
     }
 
-        function getPrevious(uint i) public view returns (address){
+    function getPrevious(uint i) public view returns (address) {
         return lands[i].old_owner;
     }
 
-    function isSame(uint i) public view returns (bool){
-        if(lands[i].old_owner==LandOwner[i])
-            return true;
+    // function getLandDetails(
+    //     uint256 i
+    // )
+    //     public
+    //     view
+    //     returns (
+    //         uint256,
+    //         uint256,
+    //         string memory,
+    //         string memory,
+    //         uint256,
+    //         uint256,
+    //         uint256
+    //     )
+    // {
+    //     return (
+    //         lands[i].id,
+    //         lands[i].area,
+    //         lands[i].city,
+    //         lands[i].state,
+    //         lands[i].landPrice,
+    //         lands[i].propertyPID,
+    //         lands[i].physicalSurveyNumber
+    //     );
+    // }
+
+    function isSame(uint i) public view returns (bool) {
+        if (lands[i].old_owner == LandOwner[i]) return true;
         else return false;
     }
 
@@ -180,8 +207,7 @@ contract Land {
         return LandOwner[id];
     }
 
-    function getAlive(address _Owner) public view returns (bool)
-    {
+    function getAlive(address _Owner) public view returns (bool) {
         return isAlive[_Owner];
     }
 
@@ -265,15 +291,65 @@ contract Land {
         }
     }
 
-        function addLand(uint _area, string memory _city,string memory _state, uint landPrice, uint _propertyPID,uint _surveyNum,string memory _ipfsHash, string memory _document) public {
+    function addLand(
+        uint _area,
+        string memory _city,
+        string memory _state,
+        uint landPrice,
+        uint _propertyPID,
+        uint _surveyNum,
+        string memory _ipfsHash,
+        string memory _document
+        ,string memory _lat,
+        string memory _lng
+    ) public {
         require((isSeller(msg.sender)) && (isVerified(msg.sender)));
         landsCount++;
-        lands[landsCount] = Landreg(landsCount, _area, _city, _state, landPrice,_propertyPID, _surveyNum, _ipfsHash, _document,msg.sender);
+        lands[landsCount] = Landreg(
+            landsCount,
+            _area,
+            _city,
+            _state,
+            landPrice,
+            _propertyPID,
+            _surveyNum,
+            _ipfsHash,
+            _document,
+            msg.sender,
+            _lat,
+            _lng
+        );
         LandOwner[landsCount] = msg.sender;
         // emit AddingLand(landsCount);
     }
 
     //registration of seller
+
+    function getLandDetails(uint256 i)
+        public
+        view
+        returns (
+            uint256,
+            uint256,
+            string memory,
+            string memory,
+            uint256,
+            string memory,
+            string memory
+        )
+    {
+        return (
+            lands[i].id,
+            lands[i].area,
+            lands[i].city,
+            lands[i].state,
+            lands[i].landPrice,
+            lands[i].lat,
+            lands[i].lng
+        );
+    }
+
+
     function registerSeller(
         string memory _name,
         uint256 _age,
@@ -298,7 +374,7 @@ contract Land {
             _document
         );
         sellers.push(msg.sender);
-        emit Registration(msg.sender,msg.sender);
+        emit Registration(msg.sender, msg.sender);
     }
 
     function updateSeller(
@@ -325,7 +401,9 @@ contract Land {
         return (sellers);
     }
 
-    function getSellerDetails(address i)
+    function getSellerDetails(
+        address i
+    )
         public
         view
         returns (
@@ -374,7 +452,7 @@ contract Land {
         );
         buyers.push(msg.sender);
 
-        emit Registration(msg.sender,msg.sender);
+        emit Registration(msg.sender, msg.sender);
     }
 
     function registerUser(
@@ -417,9 +495,9 @@ contract Land {
             _document
         );
         sellers.push(msg.sender);
-        successors[msg.sender]=_succ;
-        isAlive[msg.sender]=true;
-        emit Registration(msg.sender,_succ);
+        successors[msg.sender] = _succ;
+        isAlive[msg.sender] = true;
+        emit Registration(msg.sender, _succ);
     }
 
     function updateBuyer(
@@ -448,13 +526,13 @@ contract Land {
         return (buyers);
     }
 
-    function getSuccessor(address _Owner) public view returns (address)
-    {
-
+    function getSuccessor(address _Owner) public view returns (address) {
         return successors[_Owner];
-    } 
+    }
 
-    function getBuyerDetails(address i)
+    function getBuyerDetails(
+        address i
+    )
         public
         view
         returns (
@@ -494,16 +572,9 @@ contract Land {
         emit Landrequested(_sellerId);
     }
 
-    function getRequestDetails(uint256 i)
-        public
-        view
-        returns (
-            address,
-            address,
-            uint256,
-            bool
-        )
-    {
+    function getRequestDetails(
+        uint256 i
+    ) public view returns (address, address, uint256, bool) {
         return (
             RequestsMapping[i].sellerId,
             RequestsMapping[i].buyerId,
@@ -530,9 +601,9 @@ contract Land {
         RequestStatus[_reqId] = true;
     }
 
-        function LandOwnershipTransfer(uint _landId, address _newOwner) public{
+    function LandOwnershipTransfer(uint _landId, address _newOwner) public {
         require(isLandInspector(msg.sender));
-        lands[_landId].old_owner=LandOwner[_landId];
+        lands[_landId].old_owner = LandOwner[_landId];
         LandOwner[_landId] = _newOwner;
     }
 
@@ -542,32 +613,26 @@ contract Land {
         }
     }
 
-    function payment(address payable _receiver, uint256 _landId)
-        public
-        payable
-    {
+    function payment(
+        address payable _receiver,
+        uint256 _landId
+    ) public payable {
         PaymentReceived[_landId] = true;
         _receiver.transfer(msg.value);
     }
 
-
-    function AfterDeath(address _Owner) public
-    {
+    function AfterDeath(address _Owner) public {
         require(isLandInspector(msg.sender));
 
-        isAlive[_Owner]=false;
+        isAlive[_Owner] = false;
         uint i;
-        for(i=1;i<=landsCount;i++)
-        {
-            if(LandOwner[i]==_Owner)
-            {
-
-                lands[i].old_owner=LandOwner[i];
-                LandOwner[i]=successors[_Owner];
+        for (i = 1; i <= landsCount; i++) {
+            if (LandOwner[i] == _Owner) {
+                lands[i].old_owner = LandOwner[i];
+                LandOwner[i] = successors[_Owner];
             }
         }
 
         emit Succession(_Owner);
-
     }
 }

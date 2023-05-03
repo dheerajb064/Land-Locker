@@ -380,3 +380,8 @@ body, html, .App, #root, .auth-wrapper {
 .button-vote{
   background-color: #0e611c !important;
 }
+
+.leafler-map{
+  height: 100px;
+  width: 500px;
+}

@@ -322,6 +322,23 @@ class SDash extends Component {
                 </Card>
               </div>
             </Col>
+            <Col lg="4">
+              <div className='card-specific'>
+                <Card>
+                  <CardHeader>
+                    <h5 className="title">View on Map</h5>
+                  </CardHeader>
+                  <CardBody>
+                    <div className="chart-area">
+
+                      <Button href="/Seller/ViewMap" className="btn-fill" color="primary">
+                        View Map
+                      </Button>
+                    </div>
+                  </CardBody>
+                </Card>
+              </div>
+            </Col>
           </Row>
 
           <DrizzleProvider options={drizzleOptions}>
