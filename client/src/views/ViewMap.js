@@ -38,7 +38,6 @@ const drizzleOptions = {
 
 var verified;
 var landTemp;
-//const apiKey="Y311psylXUqBwBy3QYh4";
 
 const pos = [8.546681270365871, 76.90561508993028];
 const position = [10.520700198490545, 77.66484554595232];
