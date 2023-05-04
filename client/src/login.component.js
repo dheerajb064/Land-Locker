@@ -4,6 +4,11 @@ import LandContract from "./artifacts/Land.json";
 import getWeb3 from "./getWeb3";
 import './index.css';
 import img from '../src/assets/img/logo.jpg';
+import Typewriter from 'typewriter-effect';
+
+
+
+
 
 
 export default class Login extends Component {
@@ -95,77 +100,92 @@ export default class Login extends Component {
 
     render() {
         if (this.state.seller || this.state.buyer || this.state.landInspector) {
+            if (this.state.landInspector) {
+                this.props.history.push('/LI/LIdashboard');
+                window.location.reload(false);
+            }
+            else {
+                this.props.history.push('/Seller/SellerDashboard');
+                window.location.reload(false);
+            }
             return (
 
-                <div className="bodyC">
-                    <div className="img-wrapper">
-                        <img src={img} className="logo" />
-                        <div className="wine-text-container">
-                            <div className="site-title">Land Locker</div>
-                        </div>
-                    </div>
-                    <div className="auth-wrapper">
-                        <div className="auth-inner">
-                            <h1>You are already registered.</h1>
-                            {/* <Button href="/Seller/SellerDashboard" disabled={!this.state.seller} className="btn-block" style={{ margin: "2px", backgroundColor: "peru" }} >Seller Dashboard</Button>
-                            <br /><Button href="/admin/dashboard" disabled={!this.state.buyer} className="btn-block" style={{ margin: "2px", backgroundColor: "peru" }}>Buyer Dashboard</Button> */}
-                            <Button href="/Seller/SellerDashboard" disabled={!this.state.seller || !this.state.buyer} className="btn-block" style={{ margin: "2px", backgroundColor: "peru" }} >User Dashboard</Button>
-                            <br />
-                            <Button href="/LI/LIdashboard" disabled={!this.state.landInspector} className="btn-block" style={{ margin: "2px", backgroundColor: "peru" }}>Land Inspector Dashboard</Button>
-                        </div>
-                    </div>
-                </div>
+                // <div className="bodyC">
+                //     <div className="img-wrapper">
+                //         <img src={img} className="logo" />
+                //         <div className="wine-text-container">
+                //             <div className="site-title">Land Locker</div>
+                //         </div>
+                //     </div>
+                //     <div className="auth-wrapper">
+                //         <div className="auth-inner">
+                //             <h1>You are already registered.</h1>
+                //             <Button href="/Seller/SellerDashboard" disabled={!this.state.seller || !this.state.buyer} className="btn-block" style={{ margin: "2px", backgroundColor: "peru" }} >User Dashboard</Button>
+                //             <br />
+                //             <Button href="/LI/LIdashboard" disabled={!this.state.landInspector} className="btn-block" style={{ margin: "2px", backgroundColor: "peru" }}>Land Inspector Dashboard</Button>
+                //         </div>
+                //     </div>
+                // </div>
+                <div>your page is being redirected</div>
             );
+
         }
 
         return (
-            <div className="bodyC">
-                {/* <a href="/Help" className="faq" style={{ borderRadius: "10%", textDecoration: "none", fontWeight: "bolder" }} >
-                    <h3 style={{ color: "green" }}>Help?</h3>
-                </a> */}
-                <div className="img-wrapper">
-                    <img src={img} className="logo" />
-                    <div className="wine-text-container">
-                        <div className="site-title">Land Locker</div>
+            // <div className="bodyC">
+            //     <div className="img-wrapper">
+            //         <img src={img} className="logo" />
+            //         <div className="wine-text-container">
+            //             <div className="site-title">Land Locker</div>
+            //         </div>
+            //     </div>
+            //     <div className="auth-wrapper">
+            //         <div className="auth-inner">
+            //             <div>
+
+
+            //                 <div>
+            //                     <button onClick={() => this.submit()} className="btn btn-primary btn-block" style={{ marginBottom: "10px", marginTop: "10px" }}>Register</button>
+            //                 </div>
+            //             </div>
+            //         </div>
+            //     </div>
+            // </div>
+            <div className="bg">
+                <div className="home-text">
+                    <h1>Land Locker</h1>
+                    <div className="typewriter">
+                        {/* Trustable, Transparent and Digitized Platform
+            <br />
+            Open for all! Register Now. */}
+                        <Typewriter
+                            options={{
+                                strings: ['Blockchain Based Land Registry App.', 'Register Now !'],
+                                autoStart: true,
+                                loop: true,
+                            }}
+                        />
                     </div>
+                    <hr
+                        style={{
+                            border: "8px solid #fff",
+                            width: "400px",
+                            marginLeft: "0px",
+                        }}
+                    />
                 </div>
-                <div className="auth-wrapper">
-                    <div className="auth-inner">
-                        <div>
-                            {/* <h1 style={{ letterSpacing: "3px", fontWeight: 500, color: "black" }}>Welcome !</h1>
-                            <h4 style={{ letterSpacing: "2px", color: 'black' }}>Making the Most of Digital Era!</h4> */}
-                            {/* <hr
-                                style={{
-                                    color: "#696969",
-                                    height: 1
-                                }}
-                            /> */}
-
-                            {/* <div class="form-group" style={{ color: "black" }}>
-                                <select id="Company" class="form-control" name="Company" onChange={this.handleInputChange}>
-                                    <option selected="true" disabled="disabled">Select Role</option>
-                                    <option value="Buyer">Buyer</option>
-                                    <option value="Seller">Seller</option>
-                                </select>
-                                <div className="d-grid gap-2">
-                                    <Button variant={this.state.color1} size="lg" value="Buyer" onClick={this.handleInputChange} style={{ marginRight: '100px', marginLeft: '60px' }}>
-                                        Buyer
-                                    </Button>
-                                    <Button variant={this.state.color2} size="lg" value="Seller" onClick={this.handleInputChange}>
-                                        Seller
-                                    </Button>
-                                </div>
-
-
-                            </div> */}
-
-                            <div>
-                                <button onClick={() => this.submit()} className="btn btn-primary btn-block" style={{ marginBottom: "10px", marginTop: "10px" }}>Register</button>
-                            </div>
-                        </div>
-                    </div>
+                <div className="home-button">
+                    <button
+                        style={{ marginRight: "50px" }}
+                        onClick={() => {
+                            this.props.history.push("/RegisterSeller");
+                            window.location.reload(false);
+                        }}
+                    >
+                        Register
+                    </button>
                 </div>
-            </div>
+            </div >
         );
     }
 }

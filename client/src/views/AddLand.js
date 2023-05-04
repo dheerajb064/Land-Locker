@@ -16,7 +16,7 @@ import {
   Row,
   Col,
 } from "reactstrap";
-import { Spinner,   FormFile} from 'react-bootstrap';
+import { Spinner, FormFile } from 'react-bootstrap';
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -42,6 +42,7 @@ class AddLand extends Component {
       surveyNum: '',
       buffer2: null,
       document: '',
+      nominee: '',
     }
     this.captureFile = this.captureFile.bind(this);
     this.addimage = this.addimage.bind(this);
@@ -132,11 +133,12 @@ class AddLand extends Component {
         this.state.area,
         this.state.city,
         this.state.stateLoc,
-        this.state.price, 
+        this.state.price,
         this.state.propertyPID,
         this.state.surveyNum,
-        this.state.ipfsHash, 
-        this.state.document)
+        this.state.ipfsHash,
+        this.state.document,
+        this.state.nominee)
         .send({
           from: this.state.account,
           gas: 2100000
@@ -167,6 +169,9 @@ class AddLand extends Component {
   )
   updateSurveyNum = event => (
     this.setState({ surveyNum: event.target.value })
+  )
+  updateNominee = event => (
+    this.setState({ nominee: event.target.value })
   )
   captureFile(event) {
     event.preventDefault()
@@ -215,7 +220,7 @@ class AddLand extends Component {
                   <CardBody>
                     <h1>
                       You are not verified to view this page
-                                        </h1>
+                    </h1>
                   </CardBody>
                 </Card>
               </Col>
@@ -312,6 +317,19 @@ class AddLand extends Component {
                           type="text"
                           value={this.state.surveyNum}
                           onChange={this.updateSurveyNum}
+                        />
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col md="12">
+                      <FormGroup>
+                        <label>Public Key of Nominee</label>
+                        <Input
+                          placeholder="Nominee Key"
+                          type="text"
+                          value={this.state.nominee}
+                          onChange={this.updateNominee}
                         />
                       </FormGroup>
                     </Col>

@@ -14,6 +14,9 @@ import "../card.css";
 import getWeb3 from "../getWeb3";
 import '../index.css';
 import { Grid } from '@mui/material';
+import { Container, Paper, Divider } from '@mui/material';
+import TableComponent from "./Table";
+import { CssBaseline } from '@material-ui/core';
 
 
 
@@ -30,6 +33,7 @@ var sellerarr = [];
 var reqsarr = [];
 var userarr = [];
 var userDetails;
+var userinfo = [];
 
 
 
@@ -46,8 +50,8 @@ class LIDashboard extends Component {
     }
 
     performSuccession = (deadAddress) => async () => {
-        console.log("Inside perfrom succession",deadAddress)
-        await this.state.LandInstance.methods.AfterDeath(deadAddress).send({from: this.state.account ,gas: 2100000}).then(response =>{console.log('success')})
+        console.log("Inside perfrom succession", deadAddress)
+        await this.state.LandInstance.methods.AfterDeath(deadAddress).send({ from: this.state.account, gas: 2100000 }).then(response => { console.log('success') })
 
     }
 
@@ -85,17 +89,23 @@ class LIDashboard extends Component {
             console.log('userAddress: ', userarr)
 
             for (var i = 0; i < userarr.length; i++) {
-                if(await this.state.LandInstance.methods.getAlive(userarr[i]).call())
-                {
-                userDetails = await this.state.LandInstance.methods.getSellerDetails(userarr[i]).call();
-                console.log('userDetails', userDetails)
-                row.push(<tr><td>{i + 1}</td><td>{userDetails[0]}</td><td>{userDetails[1]}</td><td>{userDetails[2]}</td><td>{userDetails[3]}</td><td>{userDetails[4]}</td>
-                    <td>
-                        <Button className="button-vote" onClick={this.performSuccession(userarr[i])}>
+                if (await this.state.LandInstance.methods.getAlive(userarr[i]).call()) {
+                    userDetails = await this.state.LandInstance.methods.getSellerDetails(userarr[i]).call();
+                    userDetails = { ...userDetails, 6: i + 1, };
+                    userDetails = {
+                        ...userDetails, 7: <Button className="button-vote" onClick={this.performSuccession(userarr[i])}>
                             Confirm
                         </Button>
-                    </td>
-                </tr>)
+                    }
+                    console.log('userDetails', userDetails);
+                    userinfo.push(userDetails);
+                    row.push(<tr><td>{i + 1}</td><td>{userDetails[0]}</td><td>{userDetails[1]}</td><td>{userDetails[2]}</td><td>{userDetails[3]}</td><td>{userDetails[4]}</td>
+                        <td>
+                            <Button className="button-vote" onClick={this.performSuccession(userarr[i])}>
+                                Confirm
+                            </Button>
+                        </td>
+                    </tr>)
                 }
             }
 
@@ -150,103 +160,74 @@ class LIDashboard extends Component {
             <DrizzleProvider options={drizzleOptions}>
                 <LoadingContainer>
                     <div className="content">
-                        <div className="main-section">
-                            <Row>
-                                {/* <Col lg="4">
-                                    <div class="dashbord dashbord-skyblue">
-                                        <div class="icon-section">
-                                            <i class="fa fa-users" aria-hidden="true"></i><br />
-                                            <medium>Total Buyers</medium><br />
-                                            <p> {buyerarr} </p>
-                                        </div>
-                                        <div class="detail-section"><br />
-                                        </div>
-                                    </div>
-                                </Col> */}
-                                <Col lg="4">
-                                    <div class="dashbord dashbord-blue">
-                                        <div class="icon-section">
-                                            {/* <i class="fa fa-bell" aria-hidden="true"></i><br /> */}
-                                            <medium>Total Requests</medium><br />
-                                            <p>{reqsarr}</p>
-                                        </div>
-                                        <div class="detail-section">
-                                            <br />
-                                        </div>
-                                    </div>
-                                </Col>
-                                <Col lg="4">
-                                    <div class="dashbord dashbord-orange">
-                                        <div class="icon-section">
-                                            {/* <i class="fa fa-users" aria-hidden="true"></i><br /> */}
-                                            <medium>Total Users</medium><br />
-                                            <p>{sellerarr}</p>
-                                        </div>
-                                        <div class="detail-section"><br />
-                                        </div>
-                                    </div>
-                                </Col>
-                            </Row>
-                        </div>
-                        <Row>
-                            {/* <Col lg="4">
-                                <div className='card-specific'>
-                                    <Card >
-                                        <CardHeader>
-                                            <h5 className="title">Buyers Information</h5>
-                                        </CardHeader>
-                                        <CardBody>
-                                            <div className="chart-area">
-
-                                                <Button href="/LI/BuyerInfo" className="btn-fill" color="primary">
-                                                    Verify Buyers
-                                                </Button>
+                        <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+                            <Grid container spacing={3}>
+                                {/* Chart */}
+                                <Grid item xs={12} md={6} lg={6}>
+                                    <Paper
+                                        sx={{
+                                            p: 2,
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            height: 240,
+                                        }}
+                                    >
+                                        {/* <Chart /> */}
+                                        <div class="card">
+                                            <h3>New Requests</h3>
+                                            <h4>{reqsarr}</h4>
+                                            <div class="focus-content">
+                                                <Card>
+                                                    {/* <CardHeader>
+                                                        <h5 className="title">Land Transfer Requests</h5>
+                                                    </CardHeader> */}
+                                                    <CardBody>
+                                                        <div className="chart-area" style={{ textAlign: 'center' }}>
+                                                            <Button href="/LI/TransactionInfo" className="btn-fill" color="primary">
+                                                                Approve Land Transactions
+                                                            </Button>
+                                                        </div>
+                                                    </CardBody>
+                                                </Card>
                                             </div>
-                                        </CardBody>
-                                    </Card>
-                                </div>
-                            </Col> */}
-                            <Col lg="4">
-                                <div className='card-specific'>
-                                    <Card>
-                                        <CardHeader>
-                                            <h5 className="title">Land Transfer Requests</h5>
-                                        </CardHeader>
-                                        <CardBody>
-                                            <div className="chart-area">
+                                        </div>
+                                    </Paper>
+                                </Grid>
+                                {/* Recent Deposits */}
+                                <Grid item xs={12} md={6} lg={6}>
+                                    <Paper
+                                        sx={{
+                                            p: 2,
+                                            display: 'flex',
+                                            flexDirection: 'column',
+                                            height: 240,
+                                        }}
+                                    >
+                                        {/* <Deposits /> */}
+                                        <div class="card">
+                                            <h3>Total Users</h3>
+                                            <h4>{sellerarr}</h4>
+                                            <div class="focus-content">
+                                                <Card>
+                                                    {/* <CardHeader>
+                                                        <h5 className="title">Land Transfer Requests</h5>
+                                                    </CardHeader> */}
+                                                    <CardBody>
+                                                        <div className="chart-area" style={{ textAlign: 'center' }}>
 
-                                                <Button href="/LI/TransactionInfo" className="btn-fill" color="primary">
-                                                    Approve Land Transactions
-                                                </Button>
+                                                            <Button href="/LI/SellerInfo" className="btn-fill" color="primary">
+                                                                Verify Users
+                                                            </Button>
+                                                        </div>
+                                                    </CardBody>
+                                                </Card>
                                             </div>
-                                        </CardBody>
-                                    </Card>
-                                </div>
-                            </Col>
-                            <Col lg="4">
-                                <div className='card-specific'>
-                                    <Card>
-                                        <CardHeader>
-                                            <h5 className="title">User's Information</h5>
-                                        </CardHeader>
-                                        <CardBody>
-                                            <div className="chart-area">
-
-                                                <Button href="/LI/SellerInfo" className="btn-fill" color="primary">
-                                                    Verify Users
-                                                </Button>
-                                            </div>
-                                        </CardBody>
-                                    </Card>
-                                </div>
-                            </Col>
-                        </Row>
-
-
-                        <DrizzleProvider options={drizzleOptions}>
-                            <LoadingContainer>
-                                <Row>
-                                    <Col lg="12" md="12">
+                                        </div>
+                                    </Paper>
+                                </Grid>
+                                {/* Recent Orders */}
+                                {/* <Grid item xs={12}>
+                                    <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
                                         <Card>
                                             <CardHeader>
                                                 <CardTitle tag="h4">User Info
@@ -271,6 +252,141 @@ class LIDashboard extends Component {
                                                 </Table>
                                             </CardBody>
                                         </Card>
+                                    </Paper>
+                                </Grid> */}
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Paper sx={{ mt: '20px' }}>
+                                    <div className="card-sub">
+                                        <h3>User Info</h3>
+                                    </div>
+                                    <Divider />
+                                    <TableComponent data={userinfo} />
+                                </Paper>
+
+                            </Grid>
+                        </Container>
+                        <div className="main-section">
+                            <Row>
+                                {/* <Col lg="4">
+                                    <div class="dashbord dashbord-skyblue">
+                                        <div class="icon-section">
+                                            <i class="fa fa-users" aria-hidden="true"></i><br />
+                                            <medium>Total Buyers</medium><br />
+                                            <p> {buyerarr} </p>
+                                        </div>
+                                        <div class="detail-section"><br />
+                                        </div>
+                                    </div>
+                                </Col> */}
+                                {/* <Col lg="4">
+                                    <div class="dashbord dashbord-blue">
+                                        <div class="icon-section">
+                                            <i class="fa fa-bell" aria-hidden="true"></i><br />
+                                            <medium>Total Requests</medium><br />
+                                            <p>{reqsarr}</p>
+                                        </div>
+                                        <div class="detail-section">
+                                            <br />
+                                        </div>
+                                    </div>
+                                </Col> */}
+                                {/* <Col lg="4">
+                                    <div class="dashbord dashbord-orange">
+                                        <div class="icon-section">
+                                            <i class="fa fa-users" aria-hidden="true"></i><br />
+                                            <medium>Total Users</medium><br />
+                                            <p>{sellerarr}</p>
+                                        </div>
+                                        <div class="detail-section"><br />
+                                        </div>
+                                    </div>
+                                </Col> */}
+                            </Row>
+                        </div>
+                        <Row>
+                            {/* <Col lg="4">
+                                <div className='card-specific'>
+                                    <Card >
+                                        <CardHeader>
+                                            <h5 className="title">Buyers Information</h5>
+                                        </CardHeader>
+                                        <CardBody>
+                                            <div className="chart-area">
+
+                                                <Button href="/LI/BuyerInfo" className="btn-fill" color="primary">
+                                                    Verify Buyers
+                                                </Button>
+                                            </div>
+                                        </CardBody>
+                                    </Card>
+                                </div>
+                            </Col> */}
+                            {/* <Col lg="4">
+                                <div className='card-specific'>
+                                    <Card>
+                                        <CardHeader>
+                                            <h5 className="title">Land Transfer Requests</h5>
+                                        </CardHeader>
+                                        <CardBody>
+                                            <div className="chart-area">
+
+                                                <Button href="/LI/TransactionInfo" className="btn-fill" color="primary">
+                                                    Approve Land Transactions
+                                                </Button>
+                                            </div>
+                                        </CardBody>
+                                    </Card>
+                                </div>
+                            </Col> */}
+                            {/* <Col lg="4">
+                                <div className='card-specific'>
+                                    <Card>
+                                        <CardHeader>
+                                            <h5 className="title">User's Information</h5>
+                                        </CardHeader>
+                                        <CardBody>
+                                            <div className="chart-area">
+
+                                                <Button href="/LI/SellerInfo" className="btn-fill" color="primary">
+                                                    Verify Users
+                                                </Button>
+                                            </div>
+                                        </CardBody>
+                                    </Card>
+                                </div>
+                            </Col> */}
+                        </Row>
+
+
+                        <DrizzleProvider options={drizzleOptions}>
+                            <LoadingContainer>
+                                <Row>
+                                    <Col lg="12" md="12">
+                                        {/* <Card>
+                                            <CardHeader>
+                                                <CardTitle tag="h4">User Info
+                                                </CardTitle>
+                                            </CardHeader>
+                                            <CardBody>
+                                                <Table className="tablesorter" responsive color="black">
+                                                    <thead className="text-primary">
+                                                        <tr>
+                                                            <th>#</th>
+                                                            <th>Name</th>
+                                                            <th>Age</th>
+                                                            <th>Aadhar Number</th>
+                                                            <th>Pan Number</th>
+                                                            <th>Lands Owned</th>
+                                                            <th>Deceased</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {row}
+                                                    </tbody>
+                                                </Table>
+                                            </CardBody>
+                                        </Card> */}
                                     </Col>
                                 </Row>
                             </LoadingContainer>

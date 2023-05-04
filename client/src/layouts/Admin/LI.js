@@ -11,6 +11,7 @@ import Sidebar from "../../components/Sidebar/Sidebar";
 import FixedPlugin from "../../components/FixedPlugin/FixedPlugin";
 import LIDashboard from "../../views/LIDashboard";
 import routes from "../../routesLI";
+import Dashboard from "../../components/LIDashboard/dashboard";
 
 import logo from "../../assets/img/react-logo.png";
 import { BackgroundColorContext } from "../../contexts/BackgroundColorContext";
@@ -77,7 +78,7 @@ function LI(props) {
       }
     });
   };
-  
+
   const getBrandText = (path) => {
     for (let i = 0; i < routes.length; i++) {
       if (location.pathname.indexOf(routes[i].layout + routes[i].path) !== -1) {
@@ -91,25 +92,27 @@ function LI(props) {
       {({ color, changeColor }) => (
         <React.Fragment>
           <div className="wrapper">
-            <Sidebar
+            {/* <Dashboard /> */}
+            {/* <Sidebar
               routes={routes}
               logo={{
                 outterLink: "#",
                 text: "Land Registration",
-                imgSrc: logo,
+                imgSrc: logo, 
               }}
               toggleSidebar={toggleSidebar}
-            />
+            /> */}
             <div className="main-panel" ref={mainPanelRef} data={color}>
-            <AdminNavbar
+              <Dashboard />
+              {/* <AdminNavbar
                 brandText={getBrandText(location.pathname)}
                 toggleSidebar={toggleSidebar}
                 sidebarOpened={sidebarOpened}
-              />
-              <Switch>
+              /> */}
+              {/* <Switch>
                 {getRoutes(routes)}
                 <Redirect from="*" to="/LI/LIDashboard" />
-              </Switch>
+              </Switch> */}
               <Footer fluid />
 
             </div>
