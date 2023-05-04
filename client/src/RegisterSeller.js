@@ -1,18 +1,33 @@
-import React, { Component } from 'react'
+import * as React from 'react'
 import LandContract from "./artifacts/Land.json"
 import getWeb3 from "./getWeb3"
 import ipfs from './ipfs';
 import img from '../src/assets/img/logo.jpg';
-
-import { FormGroup, FormControl, Button, Spinner, FormFile } from 'react-bootstrap'
-import { Grid, TextField } from '@mui/material'
-import './index.css'
-import SelectInput from '@mui/material/Select/SelectInput';
-
+// import { Form,FormGroup, FormControl, Spinner, FormFile } from 'react-bootstrap'
+// import Container from 'react-bootstrap/Container';
+// import './index.css'
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Link from '@mui/material/Link';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { makeStyles } from '@mui/material/styles';
 //import Navigation from './Navigation'
 
+const theme = createTheme();
 
-class RegisterSeller extends Component {
+
+
+
+
+class RegisterSeller extends React.Component {
     constructor(props) {
         super(props)
 
@@ -30,10 +45,11 @@ class RegisterSeller extends Component {
             isVerified: false,
             buffer2: null,
             document: '',
-            succ:null
+            succ: null
         }
         this.captureDoc = this.captureDoc.bind(this);
         this.addDoc = this.addDoc.bind(this);
+
     }
 
     componentDidMount = async () => {
@@ -96,7 +112,7 @@ class RegisterSeller extends Component {
         } else if (!Number(this.state.age) || this.state.age < 21) {
             alert("Your age must be a number");
         } else {
-            console.log("Successor:",this.state.succ);
+            console.log("Successor:", this.state.succ);
             await this.state.LandInstance.methods.registerUser(
                 this.state.name,
                 this.state.age,
@@ -105,8 +121,8 @@ class RegisterSeller extends Component {
                 this.state.panNumber,
                 this.state.landsOwned,
                 this.state.document,
-                this.state.email,
-                this.state.succ)
+                this.state.email
+            )
                 .send({
                     from: this.state.account,
                     gas: 2100000
@@ -138,9 +154,10 @@ class RegisterSeller extends Component {
     updateEmail = event => (
         this.setState({ email: event.target.value })
     )
-    updateSucc = event => (
-        this.setState({ succ: event.target.value })
-    )
+    // updateSucc = event => (
+    //     this.setState({ succ: event.target.value })
+    // )
+
     captureDoc(event) {
         event.preventDefault()
         const file2 = event.target.files[0]
@@ -157,18 +174,18 @@ class RegisterSeller extends Component {
         if (!this.state.web3) {
             return (
                 <div>
-                    <div className="img-wrapper">
-                        <img src={img} className="logo" />
-                        <div className="wine-text-container">
-                            <div className="site-title">Land Locker</div>
+                    <div className="">
+                        <img src={img} className="" />
+                        <div className="">
+                            <div className="">Land Locker</div>
                         </div>
                     </div>
-                    <div className="auth-wrapper">
-                        <div className="auth-inner">
+                    <div className="">
+                        <div className="">
                             <div>
                                 <div>
                                     <h1>
-                                        <Spinner animation="border" variant="warning" />
+                                        {/* <Spinner animation="border" variant="warning" /> */}
                                     </h1>
                                 </div>
 
@@ -180,192 +197,130 @@ class RegisterSeller extends Component {
         }
 
         return (
-            <div className="bodyC">
 
-                <div className="img-wrapper">
-                    <img src={img} className="logo" />
-                    <div className="wine-text-container">
-                        <div className="site-title">Land Locker</div>
-                    </div>
-                </div>
-                <div className="auth-wrapper">
-                    <div className="auth-inner">
-                        <div className="App">
-
-                            <div>
-                                <div>
-                                    <h1 style={{ color: "black", marginLeft: '80px', marginBottom: '15px' }}>
-                                        Registration
-                                    </h1>
-                                </div>
-                            </div>
-
-
-
-                            {/* <div className="form">
-                                <FormGroup>
-                                    <div className="form-label">
-                                        Enter Name
-                                    </div>
-                                    <div className="form-input">
-                                        <FormControl
-                                            input='text'
-                                            value={this.state.name}
-                                            onChange={this.updateName}
-                                        />
-                                    </div>
-                                </FormGroup>
-
-                                <FormGroup>
-                                    <div className="form-label">
-                                        Enter Age
-                                    </div>
-                                    <div className="form-input">
-                                        <FormControl
-                                            input='text'
-                                            value={this.state.age}
-                                            onChange={this.updateAge}
-                                        />
-                                    </div>
-                                </FormGroup>
-
-                                <FormGroup>
-                                    <div className="form-label">
-                                        Enter Aadhar No
-                                    </div>
-                                    <div className="form-input">
-                                        <FormControl
-                                            input='text'
-                                            value={this.state.aadharNumber}
-                                            onChange={this.updateAadhar}
-                                        />
-                                    </div>
-                                </FormGroup>
-
-                                <FormGroup>
-                                    <div className="form-label">
-                                        Enter Pan no
-                                    </div>
-                                    <div className="form-input">
-                                        <FormControl
-                                            input='text'
-                                            value={this.state.panNumber}
-                                            onChange={this.updatePan}
-                                        />
-                                    </div>
-                                </FormGroup>
-
-                                <FormGroup>
-                                    <div className="form-label">
-                                        Enter Owned Lands
-                                    </div>
-                                    <div className="form-input">
-                                        <FormControl
-                                            input='text'
-                                            value={this.state.landsOwned}
-                                            onChange={this.updateOwnedLands}
-                                        />
-                                    </div>
-                                </FormGroup>
-
-                                <FormGroup>
-                                    <label>Add your Aadhar Card (PDF Format)</label>
-                                    <FormFile
-                                        id="File2"
-                                        onChange={this.captureDoc}
-                                    />
-                                </FormGroup>
-
-
-                                <Button onClick={this.registerSeller} className="button-vote">
-                                    Register as Seller
-                                </Button>
-                            </div> */}
-                            <Grid container center spacing={2}>
-                                <Grid item xs={12} sm={12}>
-                                    <TextField
-                                        id="outlined-basic"
-                                        label="Name"
-                                        variant="outlined"
-                                        value={this.state.name}
-                                        onChange={this.updateName}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} sm={12}>
-                                    <TextField
-                                        id="outlined-basic"
-                                        label="Age"
-                                        variant="outlined"
-                                        value={this.state.age}
-                                        onChange={this.updateAge}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} sm={12}>
-                                    <TextField
-                                        id="outlined-basic"
-                                        label="Email"
-                                        variant="outlined"
-                                        value={this.state.email}
-                                        onChange={this.updateEmail}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} sm={12}>
-                                    <TextField
-                                        id="outlined-basic"
-                                        label="Aadhar number"
-                                        variant="outlined"
-                                        value={this.state.aadharNumber}
-                                        onChange={this.updateAadhar}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} sm={12}>
-                                    <TextField
-                                        id="outlined-basic"
-                                        label="Pan number"
-                                        variant="outlined"
-                                        value={this.state.panNumber}
-                                        onChange={this.updatePan}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} sm={12}>
-                                    <TextField
-                                        id="outlined-basic"
-                                        label="Owned Lands"
-                                        variant="outlined"
-                                        value={this.state.updateOwnedLands}
-                                        onChange={this.updateOwnedLands}
-                                    />
-                                </Grid>
-                                <Grid item xs={12} sm={12}>
-                                    <TextField
-                                        id="outlined-basic"
-                                        label="Successor"
-                                        variant="outlined"
-                                        value={this.state.succ}
-                                        onChange={this.updateSucc}
-                                    />
-                                </Grid>
-                                <Grid>
-                                    <FormGroup>
-                                        <label>Add your Aadhar Card (PDF Format)</label>
-                                        <FormFile
-                                            id="File2"
-                                            onChange={this.captureDoc}
-                                        />
-                                    </FormGroup>
-                                </Grid>
-
-                            </Grid>
-                            <Button onClick={this.registerSeller} className="button-vote" style={{ marginLeft: '100px' }}>
+            <ThemeProvider theme={theme}>
+                <Grid container component="main" sx={{ height: '100vh' }}>
+                    <CssBaseline />
+                    <Grid
+                        item
+                        xs={false}
+                        sm={4}
+                        md={7}
+                        sx={{
+                            backgroundImage: 'url(https://bernardmarr.com/img/What%20Is%20Blockchain%20A%20Super%20Simple%20Guide%20Anyone%20Can%20Understand.png)',
+                            backgroundRepeat: 'no-repeat',
+                            backgroundColor: (t) =>
+                                t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
+                        }}
+                    />
+                    <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+                        <Box
+                            sx={{
+                                my: 8,
+                                mx: 4,
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                            }}
+                        >
+                            <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+                                {/* <LockOutlinedIcon /> */}
+                            </Avatar>
+                            <Typography component="h1" variant="h5">
                                 Register
-                            </Button>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
+                            </Typography>
+                            <Box component="form" noValidate sx={{ mt: 1, alignItems: 'center' }} >
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    id="Name"
+                                    label="Name"
+                                    name="Name"
+                                    autoFocus
+                                    value={this.state.name}
+                                    onChange={this.updateName}
+                                    sx={{ ml: '0px !important' }}
+                                />
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    id="Age"
+                                    label="Age"
+                                    name="Age"
+                                    value={this.state.age}
+                                    onChange={this.updateAge}
+                                    sx={{ ml: '0px !important' }}
+                                />
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    id="email"
+                                    label="Email Address"
+                                    name="email"
+                                    autoComplete="email"
+                                    value={this.state.email}
+                                    onChange={this.updateEmail}
+                                    sx={{ ml: '0px !important' }}
+                                />
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    name="aadhar"
+                                    label="Aadhar Number (12 digits)"
+                                    type="text"
+                                    id="aadhar"
+                                    value={this.state.aadharNumber}
+                                    onChange={this.updateAadhar}
+                                    sx={{ ml: '0px !important' }}
+                                />
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    name="PAN"
+                                    label="PAN (10 digits)"
+                                    type="text"
+                                    id="PAN"
+                                    value={this.state.panNumber}
+                                    onChange={this.updatePan}
+                                    sx={{ ml: '0px !important' }}
+                                />
+                                <TextField
+                                    margin="normal"
+                                    required
+                                    fullWidth
+                                    name="owned"
+                                    label="Owned Lands"
+                                    type="text"
+                                    id="owned"
+                                    value={this.state.landsOwned}
+                                    onChange={this.updateOwnedLands}
+                                    sx={{ ml: '0px !important' }}
+                                />
+                                <FormControlLabel
+                                    control={<Checkbox value="remember" color="primary" />}
+                                    label="Remember me"
+                                />
+                                <Button
+                                    onClick={this.registerSeller}
+                                    fullWidth
+                                    variant="contained"
+                                    sx={{ mt: 3, mb: 2 }}
+                                >
+                                    Register
+                                </Button>
+                            </Box>
+                        </Box>
+                    </Grid>
+                </Grid>
+            </ThemeProvider>
         );
-
     }
 }
 
