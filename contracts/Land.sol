@@ -5,7 +5,6 @@ contract Land {
     struct Landreg {
         uint256 id;
         uint256 area;
-        string city;
         string state;
         uint256 landPrice;
         uint256 propertyPID;
@@ -151,9 +150,9 @@ contract Land {
         return lands[i].area;
     }
 
-    function getCity(uint256 i) public view returns (string memory) {
-        return lands[i].city;
-    }
+    // function getCity(uint256 i) public view returns (string memory) {
+    //     return lands[i].city;
+    // }
 
     function getState(uint256 i) public view returns (string memory) {
         return lands[i].state;
@@ -272,14 +271,14 @@ contract Land {
 
     function addLand(
         uint256 _area,
-        string memory _city,
         string memory _state,
         uint256 landPrice,
         uint256 _propertyPID,
         uint256 _surveyNum,
         string memory _ipfsHash,
         string memory _document,
-        address _nominee,string memory _lat,
+        address _nominee,
+        string memory _lat,
         string memory _lng
     ) public {
         require((isSeller(msg.sender)) && (isVerified(msg.sender)));
@@ -287,7 +286,6 @@ contract Land {
         lands[landsCount] = Landreg(
             landsCount,
             _area,
-            _city,
             _state,
             landPrice,
             _propertyPID,
@@ -321,7 +319,7 @@ contract Land {
         return (
             lands[i].id,
             lands[i].area,
-            lands[i].city,
+            lands[i].state,
             lands[i].state,
             lands[i].landPrice,
             lands[i].lat,
@@ -405,29 +403,29 @@ contract Land {
         );
     }
 
-    function getLandDetails(uint256 i)
-        public
-        view
-        returns (
-            uint256,
-            uint256,
-            string memory,
-            string memory,
-            uint256,
-            uint256,
-            uint256
-        )
-    {
-        return (
-            lands[i].id,
-            lands[i].area,
-            lands[i].city,
-            lands[i].state,
-            lands[i].landPrice,
-            lands[i].propertyPID,
-            lands[i].physicalSurveyNumber
-        );
-    }
+    // function getLandDetails(uint256 i)
+    //     public
+    //     view
+    //     returns (
+    //         uint256,
+    //         uint256,
+    //         string memory,
+    //         string memory,
+    //         uint256,
+    //         uint256,
+    //         uint256
+    //     )
+    // {
+    //     return (
+    //         lands[i].id,
+    //         lands[i].area,
+    //         lands[i].city,
+    //         lands[i].state,
+    //         lands[i].landPrice,
+    //         lands[i].propertyPID,
+    //         lands[i].physicalSurveyNumber
+    //     );
+    // }
 
     function registerBuyer(
         string memory _name,

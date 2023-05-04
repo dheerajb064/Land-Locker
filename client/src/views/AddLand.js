@@ -133,7 +133,6 @@ class AddLand extends Component {
     } else {
       await this.state.LandInstance.methods.addLand(
         this.state.area,
-        this.state.city,
         this.state.stateLoc,
         this.state.price,
         this.state.propertyPID,

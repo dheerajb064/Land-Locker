@@ -353,39 +353,6 @@ class OwnedLands extends Component {
 
     return (
       <>
-<<<<<<< HEAD
-        <div className="content">
-          <DrizzleProvider options={drizzleOptions}>
-            <LoadingContainer>
-              <Row>
-                <Col lg="12" md="12">
-                  <Card>
-                    <CardHeader>
-                      <CardTitle tag="h4">Owned Lands</CardTitle>
-                    </CardHeader>
-                    <CardBody>
-                      <Table className="tablesorter" responsive color="black">
-                        <thead className="text-primary">
-                          <tr>
-                            <th>{row.length}</th>
-                            <th>Area</th>
-                            <th>City</th>
-                            <th>State</th>
-                            <th>Price</th>
-                            <th>Property PID</th>
-                            <th>Survey Number</th>
-                            <th>Reciept</th>
-                          </tr>
-                        </thead>
-                        <tbody>{row}</tbody>
-                      </Table>
-                    </CardBody>
-                  </Card>
-                </Col>
-              </Row>
-            </LoadingContainer>
-          </DrizzleProvider>
-=======
         <div style={{ paddingTop: '200px' }}>
           <Grid item xs={12}>
             <Paper sx={{ mt: '200px' }}>
@@ -397,7 +364,6 @@ class OwnedLands extends Component {
             </Paper>
 
           </Grid>
->>>>>>> 041894fe28df5332686540aee1c27e36f04cbca4
         </div>
       </>
     );
