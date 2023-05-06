@@ -32,6 +32,8 @@ class AddLand extends Component {
       city: '',
       stateLoc: '',
       price: '',
+      lat:'',
+      lng:'',
       lands: null,
       verficationStatus: false,
       verified: '',
@@ -124,21 +126,22 @@ class AddLand extends Component {
     this.addDoc();
     // alert('After add image')
     await new Promise(resolve => setTimeout(resolve, 15000));
-    if (this.state.area == '' || this.state.city == '' || this.state.stateLoc == '' || this.state.price == '' || this.state.propertyPID == '' || this.state.surveyNum == '') {
+    if (this.state.area == '' || this.state.city == '' || this.state.stateLoc == '' || this.state.price == '' || this.state.propertyPID == '' || this.state.surveyNum == '' || this.state.lat==''||this.state.lng=='') {
       alert("All the fields are compulsory!");
     } else if ((!Number(this.state.area)) || (!Number(this.state.price))) {
       alert("Land area and Price of Land must be a number!");
     } else {
       await this.state.LandInstance.methods.addLand(
         this.state.area,
-        this.state.city,
         this.state.stateLoc,
         this.state.price,
         this.state.propertyPID,
         this.state.surveyNum,
         this.state.ipfsHash,
         this.state.document,
-        this.state.nominee)
+        this.state.nominee,
+        this.state.lat,
+        this.state.lng)
         .send({
           from: this.state.account,
           gas: 2100000
@@ -172,6 +175,12 @@ class AddLand extends Component {
   )
   updateNominee = event => (
     this.setState({ nominee: event.target.value })
+  )
+  updatelat = event => (
+    this.setState({ lat: event.target.value })
+  )
+  updatelng = event => (
+    this.setState({ lng: event.target.value })
   )
   captureFile(event) {
     event.preventDefault()
@@ -330,6 +339,32 @@ class AddLand extends Component {
                           type="text"
                           value={this.state.nominee}
                           onChange={this.updateNominee}
+                        />
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col md="12">
+                      <FormGroup>
+                        <label>Latitude</label>
+                        <Input
+                          placeholder="Latitude"
+                          type="text"
+                          value={this.state.lat}
+                          onChange={this.updatelat}
+                        />
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col md="12">
+                      <FormGroup>
+                        <label>Longitude</label>
+                        <Input
+                          placeholder="Longitude"
+                          type="text"
+                          value={this.state.lng}
+                          onChange={this.updatelng}
                         />
                       </FormGroup>
                     </Col>

@@ -484,3 +484,8 @@ body, html, .App, #root, .auth-wrapper {
 .home-button button:hover {
 	background-color: rgb(119, 188, 197);
 }
+
+.leafler-map{
+  height: 100px;
+  width: 500px;
+}

@@ -5,7 +5,6 @@ contract Land {
     struct Landreg {
         uint256 id;
         uint256 area;
-        string city;
         string state;
         uint256 landPrice;
         uint256 propertyPID;
@@ -14,6 +13,8 @@ contract Land {
         string document;
         address old_owner;
         address nominee;
+        string lat;
+        string lng;
     }
 
     struct Buyer {
@@ -149,9 +150,9 @@ contract Land {
         return lands[i].area;
     }
 
-    function getCity(uint256 i) public view returns (string memory) {
-        return lands[i].city;
-    }
+    // function getCity(uint256 i) public view returns (string memory) {
+    //     return lands[i].city;
+    // }
 
     function getState(uint256 i) public view returns (string memory) {
         return lands[i].state;
@@ -270,21 +271,21 @@ contract Land {
 
     function addLand(
         uint256 _area,
-        string memory _city,
         string memory _state,
         uint256 landPrice,
         uint256 _propertyPID,
         uint256 _surveyNum,
         string memory _ipfsHash,
         string memory _document,
-        address _nominee
+        address _nominee,
+        string memory _lat,
+        string memory _lng
     ) public {
         require((isSeller(msg.sender)) && (isVerified(msg.sender)));
         landsCount++;
         lands[landsCount] = Landreg(
             landsCount,
             _area,
-            _city,
             _state,
             landPrice,
             _propertyPID,
@@ -292,13 +293,41 @@ contract Land {
             _ipfsHash,
             _document,
             msg.sender,
-            _nominee
+            _nominee,
+            _lat,
+            _lng
         );
         LandOwner[landsCount] = msg.sender;
         // emit AddingLand(landsCount);
     }
 
     //registration of seller
+
+    function getLandDetails(uint256 i)
+        public
+        view
+        returns (
+            uint256,
+            uint256,
+            string memory,
+            string memory,
+            uint256,
+            string memory,
+            string memory
+        )
+    {
+        return (
+            lands[i].id,
+            lands[i].area,
+            lands[i].state,
+            lands[i].state,
+            lands[i].landPrice,
+            lands[i].lat,
+            lands[i].lng
+        );
+    }
+
+
     function registerSeller(
         string memory _name,
         uint256 _age,
@@ -350,7 +379,9 @@ contract Land {
         return (sellers);
     }
 
-    function getSellerDetails(address i)
+    function getSellerDetails(
+        address i
+    )
         public
         view
         returns (
@@ -372,29 +403,29 @@ contract Land {
         );
     }
 
-    function getLandDetails(uint256 i)
-        public
-        view
-        returns (
-            uint256,
-            uint256,
-            string memory,
-            string memory,
-            uint256,
-            uint256,
-            uint256
-        )
-    {
-        return (
-            lands[i].id,
-            lands[i].area,
-            lands[i].city,
-            lands[i].state,
-            lands[i].landPrice,
-            lands[i].propertyPID,
-            lands[i].physicalSurveyNumber
-        );
-    }
+    // function getLandDetails(uint256 i)
+    //     public
+    //     view
+    //     returns (
+    //         uint256,
+    //         uint256,
+    //         string memory,
+    //         string memory,
+    //         uint256,
+    //         uint256,
+    //         uint256
+    //     )
+    // {
+    //     return (
+    //         lands[i].id,
+    //         lands[i].area,
+    //         lands[i].city,
+    //         lands[i].state,
+    //         lands[i].landPrice,
+    //         lands[i].propertyPID,
+    //         lands[i].physicalSurveyNumber
+    //     );
+    // }
 
     function registerBuyer(
         string memory _name,
@@ -500,7 +531,9 @@ contract Land {
     //     return successors[_Owner];
     // }
 
-    function getBuyerDetails(address i)
+    function getBuyerDetails(
+        address i
+    )
         public
         view
         returns (
@@ -540,16 +573,9 @@ contract Land {
         emit Landrequested(_sellerId);
     }
 
-    function getRequestDetails(uint256 i)
-        public
-        view
-        returns (
-            address,
-            address,
-            uint256,
-            bool
-        )
-    {
+    function getRequestDetails(
+        uint256 i
+    ) public view returns (address, address, uint256, bool) {
         return (
             RequestsMapping[i].sellerId,
             RequestsMapping[i].buyerId,
@@ -588,10 +614,10 @@ contract Land {
         }
     }
 
-    function payment(address payable _receiver, uint256 _landId)
-        public
-        payable
-    {
+    function payment(
+        address payable _receiver,
+        uint256 _landId
+    ) public payable {
         PaymentReceived[_landId] = true;
         _receiver.transfer(msg.value);
     }
