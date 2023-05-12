@@ -339,6 +339,23 @@ class SDash extends Component {
                 </Card>
               </div>
             </Col>
+            {/* <Col lg="4">
+              <div className='card-specific'>
+                <Card>
+                  <CardHeader>
+                    <h5 className="title">Ownership History</h5>
+                  </CardHeader>
+                  <CardBody>
+                    <div className="chart-area">
+
+                      <Button href="/Seller/history" className="btn-fill" color="primary">
+                        View History
+                      </Button>
+                    </div>
+                  </CardBody>
+                </Card>
+              </div>
+            </Col> */}
           </Row>
 
           <DrizzleProvider options={drizzleOptions}>

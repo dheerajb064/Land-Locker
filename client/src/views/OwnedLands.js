@@ -36,6 +36,9 @@ const styles = StyleSheet.create({
   image: {
     width: 80,
     height: 80,
+    marginLeft: 30,
+    marginTop: 30,
+    marginBottom: 10
   },
 });
 
@@ -48,6 +51,7 @@ var row = [];
 var old_owner, new_owner;
 var old_seller, new_seller;
 var data = [];
+var owners= [];
 var landData = [];
 var count;
 var currentAddress;
@@ -69,35 +73,55 @@ class OwnedLands extends Component {
       id: "",
       amount: 0,
       landData: [],
+      ownerData :[] ,
     };
   }
 
   MyDoc = () => {
     return (
       <Document>
-        <Page style={{ borderColor: "orange", borderWidth: "5px", borderStyle: "solid" }}>
-          <Image
+        <Page style={{ borderColor: "black", borderWidth: "7px", borderStyle: "solid" }}>
+          <Image 
             style={styles.image}
             src={Logo}
           />
-          <Text style={{ fontSize: "20px", color: "blue", textAlign: "center" }}>
+          <Text style={{ fontSize: "20px", color: "blue", textAlign: "center", marginTop:"5px" }}>
             {"\n\n"}Land Locker
           </Text>
-          <Text style={{ fontSize: "15px", color: "green", textAlign: "center" }}>
+          <Text style={{ fontSize: "12px", color: "black", textAlign: "center", marginTop:"2px" }}>
+            {"\n\n"}Receipt generated on: {Date()}
+          </Text>
+          <Text style={{ fontSize: "15px", color: "green", textAlign: "left" ,marginLeft: "50"}}>
+            {"\n\n"}Land Details:
+            {/* The property has been transferred from {old_seller[0]}{"\n\n"}
+            with ID {old_owner} to {new_seller[0]} with ID {new_owner} */}
+            <Text style={{ fontSize: "10px", color: "black" }}>
+              {"\n\n"}land_id: {data[0]}
+              {"\n\n"}area: {data[1]}
+              {"\n\n"}land price: {data[4]}
+              {"\n\n"}latitude: {data[5]}
+              {"\n\n"}longitude: {data[6]}
+            </Text>
+          </Text>
+          <Text style={{ fontSize: "15px", color: "green", textAlign: "left" ,marginLeft: "50"}}>
             {"\n\n"}Transferred from:
             {/* The property has been transferred from {old_seller[0]}{"\n\n"}
             with ID {old_owner} to {new_seller[0]} with ID {new_owner} */}
-            <Text style={{ fontSize: "10px", color: "red" }}>
+            <Text style={{ fontSize: "10px", color: "black" }}>
               {"\n\n"}Name: {old_seller[0]}
+              {"\n\n"}Age: {old_seller[1]}
+              {"\n\n"}Aadhar number: {old_seller[2]}
               {"\n\n"}Public Key: {old_owner}
             </Text>
           </Text>
-          <Text style={{ fontSize: "15px", color: "green", textAlign: "center" }}>
+          <Text style={{ fontSize: "15px", color: "green", textAlign: "left" ,marginLeft: "50"}}>
             {"\n\n"}Transferred to:
             {/* The property has been transferred from {old_seller[0]}{"\n\n"}
             with ID {old_owner} to {new_seller[0]} with ID {new_owner} */}
-            <Text style={{ fontSize: "10px", color: "red" }}>
+            <Text style={{ fontSize: "10px", color: "black" }}>
               {"\n\n"}Name: {new_seller[0]}
+              {"\n\n"}Age: {new_seller[1]}
+              {"\n\n"}Aadhar number: {new_seller[2]}
               {"\n\n"}Public Key: {new_owner}
             </Text>
           </Text>
@@ -250,8 +274,25 @@ class OwnedLands extends Component {
             .getSellerDetails(new_owner)
             .call();
           console.log(old_seller[0], new_seller[0]);
+          
+          // getting ownership history
+          var ownCount=await this.state.LandInstance.methods.getOwnerCount(i + 1).call();
+          var row;
+          for(var j=0;j<ownCount;j++)
+          {
+            row=await this.state.LandInstance.methods.getOwnerDetails(i+1,j).call();
+            row=await this.state.LandInstance.methods.getSellerDetails(row).call();
+            console.log(row);
+            this.setState({ ownerData: [...this.state.ownerData , row] });
+          }
+          
+          console.log(this.state.ownerData);
+
           data = await this.state.LandInstance.methods.getLandDetails(i + 1).call();
-          data[7] = <PDFDownloadLink
+          data[7] = <Button href="/Seller/history">
+              View History
+          </Button>
+          data[8] = <PDFDownloadLink
             document={this.MyDoc()}
             fileName="somename.pdf"
           >
@@ -264,6 +305,7 @@ class OwnedLands extends Component {
                 </Button>
               ) : (
                 <Button
+                disabled={!verified || same}
                   className="button-vote"
                 >
                   Download
@@ -360,7 +402,7 @@ class OwnedLands extends Component {
                 <h3>User Info</h3>
               </div>
               <Divider />
-              <TableComponent data={this.state.landData} />
+              <TableComponent historyData={this.state.ownerData} landData = {this.state.landData} />
             </Paper>
 
           </Grid>

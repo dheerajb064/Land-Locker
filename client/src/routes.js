@@ -5,6 +5,7 @@ import OwnedLands from "./views/OwnedLands";
 import MakePayment from "./views/MakePayment";
 import updateBuyer from "./views/updateBuyer";
 import ViewMap from "./views/ViewMap";
+import ownHistory from "./views/ownHistory";
 import Help from "./Help";
 
 var routes = [
@@ -70,6 +71,14 @@ var routes = [
     rtlName: "الرموز",
     icon: "tim-icons",
     component: ViewMap,
+    layout: "/admin",
+  },
+  {
+    path: "/history",
+    name: "",
+    rtlName: "الرموز",
+    icon: "tim-icons",
+    component: ownHistory,
     layout: "/admin",
   },
 ];
