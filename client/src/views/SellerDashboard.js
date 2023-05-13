@@ -11,6 +11,8 @@ import {
 import Land from "../artifacts/Land.json";
 import "../card.css";
 import getWeb3 from "../getWeb3";
+import { Grid } from '@mui/material';
+import { Container, Paper, Divider } from '@mui/material';
 import "../index.css";
 
 
@@ -198,158 +200,286 @@ class SDash extends Component {
 
 
     return (
-      <>
-        <div className="content">
-          <DrizzleProvider options={drizzleOptions}>
-            <LoadingContainer>
-              <div className="main-section">
-                <Row>
-                  <Col lg="4">
-                    <div class="dashbord ">
-                      <div class="icon-section">
-                        <i class="fa fa-users" aria-hidden="true"></i><br />
-                        <medium>Total Buyers</medium><br />
-                        <p> {userarr} </p>
-                      </div>
-                      <div class="detail-section"><br />
+      // <>
+      //   <div className="content">
+      //     <DrizzleProvider options={drizzleOptions}>
+      //       <LoadingContainer>
+      //         <div className="main-section">
+      //           <Row>
+      //             <Col lg="4">
+      //               <div class="dashbord ">
+      //                 <div class="icon-section">
+      //                   <i class="fa fa-users" aria-hidden="true"></i><br />
+      //                   <medium>Total Buyers</medium><br />
+      //                   <p> {userarr} </p>
+      //                 </div>
+      //                 <div class="detail-section"><br />
+      //                 </div>
+      //               </div>
+      //             </Col>
+      //             <Col lg="4">
+      //               <div class="dashbord">
+      //                 <div class="icon-section">
+      //                   <i class="fa fa-landmark" aria-hidden="true"></i><br />
+      //                   <medium>Registered Lands Count</medium><br />
+      //                   <p>{countarr}</p>
+      //                 </div>
+      //                 <div class="detail-section"><br />
+      //                 </div>
+      //               </div>
+      //             </Col>
+      //             <Col lg="4">
+      //               <div class="dashbord">
+      //                 <div class="icon-section">
+      //                   <i class="fa fa-bell" aria-hidden="true"></i><br />
+      //                   <medium>Total Requests</medium><br />
+      //                   <p>{reqsarr}</p>
+      //                 </div>
+      //                 <div class="detail-section">
+      //                   <br />
+      //                 </div>
+      //               </div>
+      //             </Col>
+      //           </Row>
+      //         </div>
+      //       </LoadingContainer>
+      //     </DrizzleProvider>
+      //     <Row>
+      //       <Col lg="4">
+      //         <Card>
+      //           <CardHeader>
+      //             <h5 className="title">Wish to Add Land !</h5>
+      //           </CardHeader>
+      //           <CardBody>
+      //             <div className="chart-area">
+
+      //               <Button href="/Seller/AddLand" disabled={!this.state.verified} className="btn-fill" color="primary">
+      //                 Add Land
+      //               </Button>
+      //             </div>
+      //           </CardBody>
+      //         </Card>
+      //       </Col>
+      //       <Col lg="4">
+      //         <Card>
+      //           <CardHeader>
+      //             <h5 className="title">Profile</h5>
+      //           </CardHeader>
+      //           <CardBody>
+      //             <div className="chart-area">
+
+      //               <Button href="/seller/sellerProfile" className="btn-fill" color="primary">
+      //                 View Profile
+      //               </Button>
+      //             </div>
+      //           </CardBody>
+      //         </Card>
+      //       </Col>
+      //       <Col lg="4">
+      //         <Card>
+      //           <CardHeader>
+      //             <h5 className="title">Requests</h5>
+      //           </CardHeader>
+      //           <CardBody>
+      //             <div className="chart-area">
+
+      //               <Button href="/Seller/ApproveRequest" disabled={!this.state.verified} className="btn-fill" color="primary">
+      //                 View all Land Requests
+      //               </Button>
+      //             </div>
+      //           </CardBody>
+      //         </Card>
+      //       </Col>
+      //       <Col lg="4">
+      //         <div className='card-specific'>
+      //           <Card>
+      //             <CardHeader>
+      //               <h5 className="title">Make Payments for Approved Land Requests</h5>
+      //             </CardHeader>
+      //             <CardBody>
+      //               <div className="chart-area">
+
+      //                 <Button href="/admin/MakePayment" className="btn-fill" disabled={!this.state.verified} color="primary">
+      //                   Make Payment
+      //                 </Button>
+      //               </div>
+      //             </CardBody>
+      //           </Card>
+      //         </div>
+      //       </Col>
+      //       <Col lg="4">
+      //         <div className='card-specific'>
+      //           <Card>
+      //             <CardHeader>
+      //               <h5 className="title">Owned Lands</h5>
+      //             </CardHeader>
+      //             <CardBody>
+      //               <div className="chart-area">
+
+      //                 <Button href="/admin/OwnedLands" className="btn-fill" color="primary">
+      //                   View Your Lands
+      //                 </Button>
+      //               </div>
+      //             </CardBody>
+      //           </Card>
+      //         </div>
+      //       </Col>
+      //       <Col lg="4">
+      //         <div className='card-specific'>
+      //           <Card>
+      //             <CardHeader>
+      //               <h5 className="title">View on Map</h5>
+      //             </CardHeader>
+      //             <CardBody>
+      //               <div className="chart-area">
+
+      //                 <Button href="/Seller/ViewMap" className="btn-fill" color="primary">
+      //                   View Map
+      //                 </Button>
+      //               </div>
+      //             </CardBody>
+      //           </Card>
+      //         </div>
+      //       </Col>
+      //     </Row>
+
+      //     <DrizzleProvider options={drizzleOptions}>
+      //       <LoadingContainer>
+      //         <Row>
+      //           <Col lg="12" md="12">
+      //             <Card>
+      //               <CardHeader>
+      //                 <CardTitle tag="h4">Lands Info
+      //                 </CardTitle>
+      //               </CardHeader>
+      //               <CardBody>
+      //                 <Table className="tablesorter" responsive color="black">
+      //                   <thead className="text-primary">
+      //                     <tr>
+      //                       <th>#</th>
+      //                       <th>Area</th>
+      //                       {/* <th>City</th> */}
+      //                       <th>State</th>
+      //                       <th>Price</th>
+      //                       <th>Property PID</th>
+      //                       <th>Survey Number</th>
+      //                       <th>Actions</th>
+      //                     </tr>
+      //                   </thead>
+      //                   <tbody>
+      //                     {row}
+      //                   </tbody>
+      //                 </Table>
+      //               </CardBody>
+      //             </Card>
+      //           </Col>
+      //         </Row>
+      //       </LoadingContainer>
+      //     </DrizzleProvider>
+      //     <Row>
+      //       <Col lg="4">
+      //         <Card>
+      //           <CardHeader>
+      //             <CardTitle>View Images of all Lands!</CardTitle>
+      //           </CardHeader>
+      //           <CardBody>
+      //             <Button href="/Seller/viewImage" className="btn-fill" color="primary">
+      //               View Images
+      //             </Button>
+      //           </CardBody>
+      //         </Card>
+      //       </Col>
+      //     </Row>
+      //   </div>
+      // </>
+      <DrizzleProvider options={drizzleOptions}>
+        <LoadingContainer>
+          <div className="content">
+            <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+              <Grid container spacing={3}>
+                <Grid item xs={12} md={6} lg={6}>
+                  <Paper
+                    sx={{
+                      p: 2,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      height: 240,
+                    }}
+                  >
+                    {/* <Chart /> */}
+                    <div class="card">
+                      <h3>Registered Lands</h3>
+                      <h4>{countarr}</h4>
+                      <div class="focus-content">
+                        <Card>
+                          <CardBody>
+                            <div className="chart-area" style={{ textAlign: 'center' }}>
+                              <Button href="/Seller/AddLand" disabled={!this.state.verified} className="btn-fill" color="primary">
+                                Add Land
+                              </Button>
+                            </div>
+                          </CardBody>
+                        </Card>
                       </div>
                     </div>
-                  </Col>
-                  <Col lg="4">
-                    <div class="dashbord">
-                      <div class="icon-section">
-                        <i class="fa fa-landmark" aria-hidden="true"></i><br />
-                        <medium>Registered Lands Count</medium><br />
-                        <p>{countarr}</p>
-                      </div>
-                      <div class="detail-section"><br />
+                  </Paper>
+                </Grid>
+                <Grid item xs={12} md={6} lg={6}>
+                  <Paper
+                    sx={{
+                      p: 2,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      height: 240,
+                    }}
+                  >
+                    <div class="card">
+                      <h3>Total Requests</h3>
+                      <h4>{reqsarr}</h4>
+                      <div class="focus-content">
+                        <Card>
+                          <CardBody>
+                            <div className="chart-area" style={{ textAlign: 'center' }}>
+
+                              <Button href="/Seller/ApproveRequest" disabled={!this.state.verified} className="btn-fill" color="primary">
+                                View Requests
+                              </Button>
+                            </div>
+                          </CardBody>
+                        </Card>
                       </div>
                     </div>
-                  </Col>
-                  <Col lg="4">
-                    <div class="dashbord">
-                      <div class="icon-section">
-                        <i class="fa fa-bell" aria-hidden="true"></i><br />
-                        <medium>Total Requests</medium><br />
-                        <p>{reqsarr}</p>
-                      </div>
-                      <div class="detail-section">
-                        <br />
-                      </div>
+                  </Paper>
+                </Grid>
+              </Grid>
+              <Grid container spacing={3} direction="column" alignItems="center" justifyContent="center" >
+                <Grid item xs={12} md={6} lg={6} p="40">
+                  <Paper sx={{ mt: '20px' }}>
+                    <div className="card-sub" style={{ padding: '20px' }}>
+                      <h3>Make Payments for Approved Land Requests</h3>
                     </div>
-                  </Col>
-                </Row>
-              </div>
-            </LoadingContainer>
-          </DrizzleProvider>
-          <Row>
-            <Col lg="4">
-              <Card>
-                <CardHeader>
-                  <h5 className="title">Wish to Add Land !</h5>
-                </CardHeader>
-                <CardBody>
-                  <div className="chart-area">
+                    <div className="chart-area" style={{ textAlign: 'center', marginBottom: '25px' }}>
 
-                    <Button href="/Seller/AddLand" disabled={!this.state.verified} className="btn-fill" color="primary">
-                      Add Land
-                    </Button>
-                  </div>
-                </CardBody>
-              </Card>
-            </Col>
-            <Col lg="4">
-              <Card>
-                <CardHeader>
-                  <h5 className="title">Profile</h5>
-                </CardHeader>
-                <CardBody>
-                  <div className="chart-area">
-
-                    <Button href="/seller/sellerProfile" className="btn-fill" color="primary">
-                      View Profile
-                    </Button>
-                  </div>
-                </CardBody>
-              </Card>
-            </Col>
-            <Col lg="4">
-              <Card>
-                <CardHeader>
-                  <h5 className="title">Requests</h5>
-                </CardHeader>
-                <CardBody>
-                  <div className="chart-area">
-
-                    <Button href="/Seller/ApproveRequest" disabled={!this.state.verified} className="btn-fill" color="primary">
-                      View all Land Requests
-                    </Button>
-                  </div>
-                </CardBody>
-              </Card>
-            </Col>
-            <Col lg="4">
-              <div className='card-specific'>
-                <Card>
-                  <CardHeader>
-                    <h5 className="title">Make Payments for Approved Land Requests</h5>
-                  </CardHeader>
-                  <CardBody>
-                    <div className="chart-area">
-
-                      <Button href="/admin/MakePayment" className="btn-fill" disabled={!this.state.verified} color="primary">
+                      <Button href="/admin/MakePayment" disabled={!this.state.verified} className="btn-fill" color="primary">
                         Make Payment
                       </Button>
                     </div>
-                  </CardBody>
-                </Card>
-              </div>
-            </Col>
-            <Col lg="4">
-              <div className='card-specific'>
-                <Card>
-                  <CardHeader>
-                    <h5 className="title">Owned Lands</h5>
-                  </CardHeader>
-                  <CardBody>
-                    <div className="chart-area">
+                    <Divider />
+                    {/* <TableComponent data={userinfo} /> */}
+                  </Paper>
 
-                      <Button href="/admin/OwnedLands" className="btn-fill" color="primary">
-                        View Your Lands
-                      </Button>
-                    </div>
-                  </CardBody>
-                </Card>
-              </div>
-            </Col>
-            <Col lg="4">
-              <div className='card-specific'>
-                <Card>
-                  <CardHeader>
-                    <h5 className="title">View on Map</h5>
-                  </CardHeader>
-                  <CardBody>
-                    <div className="chart-area">
+                </Grid>
+              </Grid>
+              <Grid item xs={12}>
+                <Paper sx={{ mt: '20px' }}>
+                  <div className="card-sub">
+                    <h3>Lands Info</h3>
+                  </div>
+                  {/* <Divider /> */}
+                  {/* <TableComponent data={userinfo} /> */}
 
-                      <Button href="/Seller/ViewMap" className="btn-fill" color="primary">
-                        View Map
-                      </Button>
-                    </div>
-                  </CardBody>
-                </Card>
-              </div>
-            </Col>
-          </Row>
-
-          <DrizzleProvider options={drizzleOptions}>
-            <LoadingContainer>
-              <Row>
-                <Col lg="12" md="12">
+                  
                   <Card>
-                    <CardHeader>
-                      <CardTitle tag="h4">Lands Info
-                      </CardTitle>
-                    </CardHeader>
                     <CardBody>
                       <Table className="tablesorter" responsive color="black">
                         <thead className="text-primary">
@@ -370,27 +500,21 @@ class SDash extends Component {
                       </Table>
                     </CardBody>
                   </Card>
-                </Col>
-              </Row>
-            </LoadingContainer>
-          </DrizzleProvider>
-          <Row>
-            <Col lg="4">
-              <Card>
-                <CardHeader>
-                  <CardTitle>View Images of all Lands!</CardTitle>
-                </CardHeader>
-                <CardBody>
-                  <Button href="/Seller/viewImage" className="btn-fill" color="primary">
-                    View Images
-                  </Button>
-                </CardBody>
-              </Card>
-            </Col>
-          </Row>
-        </div>
-      </>
+                </Paper>
 
+              </Grid>
+
+
+            </Container>
+            <div className="main-section">
+              <Row>
+              </Row>
+            </div>
+            <Row>
+            </Row>
+          </div>
+        </LoadingContainer>
+      </DrizzleProvider>
     );
 
   }
