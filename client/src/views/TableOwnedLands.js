@@ -137,7 +137,7 @@ function Row(props) {
               <TableCell align="right">Price</TableCell>
               <TableCell align="right">Property ID</TableCell>
               <TableCell align="right">Survey Number</TableCell>
-              <TableCell align="right">Ownership History</TableCell>
+              {/* <TableCell align="right">Ownership History</TableCell> */}
               <TableCell align="right">Reciept</TableCell>
             </TableRow>
           </TableHead>
