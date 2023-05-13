@@ -289,10 +289,10 @@ class OwnedLands extends Component {
           console.log(this.state.ownerData);
 
           data = await this.state.LandInstance.methods.getLandDetails(i + 1).call();
-          data[7] = <Button href="/Seller/history">
-              View History
-          </Button>
-          data[8] = <PDFDownloadLink
+          // data[7] = <Button href="/Seller/history">
+          //     View History
+          // </Button>
+          data[7] = <PDFDownloadLink
             document={this.MyDoc()}
             fileName="somename.pdf"
           >
