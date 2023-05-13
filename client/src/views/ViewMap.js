@@ -38,6 +38,7 @@ const drizzleOptions = {
 
 var verified;
 var landTemp;
+var ownerTemp;
 
 const pos = [8.546681270365871, 76.90561508993028];
 const position = [10.520700198490545, 77.66484554595232];
@@ -63,7 +64,31 @@ class ViewMap extends Component {
       count: 0,
       id: "",
       landInfo:[],
+      ownerInfo:[],
+      currentAddr:null,
     };
+  }
+
+
+  requestLand = (seller_address, land_id) => async () => {
+
+    console.log(seller_address);
+    console.log(land_id);
+    // this.setState({requested: true});
+    // requested = true;
+    await this.state.LandInstance.methods.requestLand(
+      seller_address,
+      land_id
+    ).send({
+      from: this.state.account,
+      gas: 2100000
+    }).then(response => {
+      this.props.history.push("#");
+    });
+
+    //Reload
+    window.location.reload(false);
+
   }
 
   componentDidMount = async () => {
@@ -92,7 +117,9 @@ class ViewMap extends Component {
         LandInstance: instance,
         web3: web3,
         account: accounts[0],
+        currentAddr:currentAddress,
       });
+
       verified = await this.state.LandInstance.methods
         .isVerified(currentAddress)
         .call();
@@ -106,16 +133,19 @@ class ViewMap extends Component {
 
       var count = await this.state.LandInstance.methods.getLandsCount().call();
       count = parseInt(count);
-      console.log(typeof count);
+      //console.log(typeof count);
       console.log(count);
       //this.setState({count:count});
       for (var i = 1; i < count + 1; i++){
           landTemp= await this.state.LandInstance.methods.getLandDetails(i).call();
           this.setState({landInfo:[...this.state.landInfo,landTemp]});
+          ownerTemp=await this.state.LandInstance.methods.getLandOwner(i).call();
+          this.setState({ownerInfo:[...this.state.ownerInfo,ownerTemp]});
       }
       console.log(this.state.landInfo);
+      console.log(this.state.ownerInfo,this.state.currentAddr);
 
-
+ 
     } catch (error) {
       // Catch any errors for any of the above operations.
       alert(
@@ -168,7 +198,7 @@ class ViewMap extends Component {
         
         <SearchField/>
         {
-
+        
         this.state.landInfo.map(element=>
         <Marker key={element[0]} position={new Array(element[5],element[6])} icon={markerIcon}>
           <Popup>
@@ -189,7 +219,8 @@ class ViewMap extends Component {
                 </Typography>
               </CardContent>
               <CardActions>
-                <Buttonn size="small">Buy</Buttonn>
+                <Buttonn size="small" onClick={this.requestLand(this.state.ownerInfo[(element[0]-1)], element[0])} disabled={!verified || this.state.ownerInfo[(element[0]-1)] && this.state.ownerInfo[(element[0]-1)].toLowerCase()== this.state.currentAddr}>Buy</Buttonn>
+                
               </CardActions>
             </Cardd>
           </Popup>

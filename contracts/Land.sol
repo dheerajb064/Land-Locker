@@ -17,6 +17,11 @@ contract Land {
         string lng;
     }
 
+    struct MoreDetails{
+        uint256 id;
+        uint256 ownerCount;
+    }
+
     struct Buyer {
         address id;
         string name;
@@ -55,6 +60,9 @@ contract Land {
     }
 
     //key value pairs
+    mapping(uint256 => MoreDetails) public details;
+    mapping(uint256 => address[10]) public owners;
+
     mapping(uint256 => Landreg) public lands;
     mapping(uint256 => LandInspector) public InspectorMapping;
     mapping(address => Seller) public SellerMapping;
@@ -160,7 +168,20 @@ contract Land {
 
     // function getStatus(uint i) public view returns (bool) {
     //     return lands[i].verificationStatus;
+
     // }
+
+    function getOwnerCount(uint256 i) public view returns (uint256) {
+        return details[i].ownerCount;
+    }
+
+    function getOwnerDetails(
+        uint256 i,
+        uint256 j
+    ) public view returns (address) {
+        return (owners[i][j]);
+    }
+
     function getPrice(uint256 i) public view returns (uint256) {
         return lands[i].landPrice;
     }
@@ -283,27 +304,34 @@ contract Land {
     ) public {
         require((isSeller(msg.sender)) && (isVerified(msg.sender)));
         landsCount++;
-        lands[landsCount] = Landreg(
-            landsCount,
-            _area,
-            _state,
-            landPrice,
-            _propertyPID,
-            _surveyNum,
-            _ipfsHash,
-            _document,
-            msg.sender,
-            _nominee,
-            _lat,
-            _lng
-        );
+        lands[landsCount] = Landreg({
+            id: landsCount,
+            area: _area,
+            state: _state,
+            landPrice: landPrice,
+            propertyPID: _propertyPID,
+            physicalSurveyNumber: _surveyNum,
+            ipfsHash: _ipfsHash,
+            document: _document,
+            old_owner: msg.sender,
+            nominee: _nominee,
+            lat: _lat,
+            lng: _lng
+        });
+        
         LandOwner[landsCount] = msg.sender;
+        owners[landsCount][0] = msg.sender;
+
+        details[landsCount] = MoreDetails({id: landsCount, ownerCount: 1});
+
         // emit AddingLand(landsCount);
     }
 
     //registration of seller
 
-    function getLandDetails(uint256 i)
+    function getLandDetails(
+        uint256 i
+    )
         public
         view
         returns (
@@ -327,6 +355,31 @@ contract Land {
         );
     }
 
+    function getLandOwnerDetails(
+        uint256 i
+    )
+        public
+        view
+        returns (
+            uint256,
+            uint256,
+            string memory,
+            string memory,
+            uint256,
+            string memory,
+            string memory
+        )
+    {
+        return (
+            lands[i].id,
+            lands[i].area,
+            lands[i].state,
+            lands[i].state,
+            lands[i].landPrice,
+            lands[i].lat,
+            lands[i].lng
+        );
+    }
 
     function registerSeller(
         string memory _name,
@@ -606,6 +659,8 @@ contract Land {
         require(isLandInspector(msg.sender));
         lands[_landId].old_owner = LandOwner[_landId];
         LandOwner[_landId] = _newOwner;
+        lands[_landId].nominee = address(0);
+        owners[_landId][details[_landId].ownerCount++] = _newOwner;
     }
 
     function isPaid(uint256 _landId) public view returns (bool) {
