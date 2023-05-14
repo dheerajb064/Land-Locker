@@ -1,7 +1,7 @@
 import * as React from 'react'
 import LandContract from "./artifacts/Land.json"
 import getWeb3 from "./getWeb3"
-import ipfs from './ipfs';
+import { pinFileToIPFS } from './upload_ipfs.js'
 import img from '../src/assets/img/logo.jpg';
 // import { Form,FormGroup, FormControl, Spinner, FormFile } from 'react-bootstrap'
 // import Container from 'react-bootstrap/Container';
@@ -19,6 +19,7 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { makeStyles } from '@mui/material/styles';
+import { Spinner, FormFile ,FormGroup} from 'react-bootstrap';
 //import Navigation from './Navigation'
 
 const theme = createTheme();
@@ -43,12 +44,12 @@ class RegisterSeller extends React.Component {
             panNumber: '',
             landsOwned: '',
             isVerified: false,
-            buffer2: null,
-            document: '',
+            fileUrl: '',
+            File:null,
             succ: null
         }
         this.captureDoc = this.captureDoc.bind(this);
-        this.addDoc = this.addDoc.bind(this);
+        this.onUpload=this.onUpload.bind(this);
 
     }
 
@@ -84,22 +85,31 @@ class RegisterSeller extends React.Component {
         }
     };
 
-    addDoc = async () => {
-        // alert('In add image')
-        await ipfs.files.add(this.state.buffer2, (error, result) => {
-            if (error) {
-                alert(error)
-                return
-            }
+    onUpload = async (e) => {
+        /* upload image to IPFS */
+        // const file = e.target.files[0]
+        try {
+            const url = await pinFileToIPFS(this.state.File);
 
-            alert(result[0].hash)
-            this.setState({ document: result[0].hash });
-            console.log('document:', this.state.document);
-        })
+            // const url = `https://ipfs.infura.io/ipfs/${added.path}`
+            console.log(url, " fileURL")
+            this.setState({fileUrl:url});
+            console.log(url, " URL")
+            //alert(`fileURL: ${this.state.fileUrl}`)
+
+        } catch (error) {
+            <inputs
+                type="file"
+                name="Asset"
+                className="my-4"
+                onChange={this.captureDoc}
+            />
+            console.log('Error uploading file: ', error)
+        }
     }
 
     registerSeller = async () => {
-        this.addDoc();
+        //this.addDoc();
         // alert('After add image')
         console.log("Registered user");
         await new Promise(resolve => setTimeout(resolve, 10000));
@@ -120,7 +130,7 @@ class RegisterSeller extends React.Component {
                 this.state.aadharNumber,
                 this.state.panNumber,
                 this.state.landsOwned,
-                this.state.document,
+                this.state.fileUrl,
                 this.state.email
             )
                 .send({
@@ -158,16 +168,13 @@ class RegisterSeller extends React.Component {
     //     this.setState({ succ: event.target.value })
     // )
 
-    captureDoc(event) {
-        event.preventDefault()
-        const file2 = event.target.files[0]
-        const reader2 = new window.FileReader()
-        reader2.readAsArrayBuffer(file2)
-        reader2.onloadend = () => {
-            this.setState({ buffer2: Buffer(reader2.result) })
-            console.log('buffer2', this.state.buffer2)
-        }
-        console.log('caoture doc...')
+    captureDoc= event =>{
+        const file = event.target.files[0];
+        const inp = this.state;
+        inp.File = file;
+        this.setState(inp)
+        console.log(this.state.File);
+        this.onUpload(event)
     }
 
     render() {
@@ -303,6 +310,13 @@ class RegisterSeller extends React.Component {
                                     onChange={this.updateOwnedLands}
                                     sx={{ ml: '0px !important' }}
                                 />
+                                <FormGroup>
+                                    <label>Insert Adhar card document</label>
+                                    <FormFile
+                                        id="File2"
+                                        onChange={this.captureDoc}
+                                    />
+                                </FormGroup>
                                 <FormControlLabel
                                     control={<Checkbox value="remember" color="primary" />}
                                     label="Remember me"
