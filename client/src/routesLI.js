@@ -3,6 +3,7 @@ import ApproveTransaction from "./views/ApproveTransaction";
 import BuyerInfo from "./views/BuyerInfo";
 import SellerInfo from "./views/SellerInfo";
 import TransactionInfo from "./views/TransactionInfo";
+import ViewLand from "./views/viewLands";
 
 // var routes = [
 //   {
@@ -61,6 +62,14 @@ var routes = [
     rtlName: "لوحة القيادة",
     icon: "tim-icons icon-send",
     component: TransactionInfo,
+    layout: "/LI",
+  },
+  {
+    path: "/ViewLands",
+    name: "View Lands",
+    rtlName: "لوحة القيادة",
+    icon: "tim-icons icon-send",
+    component: ViewLand,
     layout: "/LI",
   },
 ];
