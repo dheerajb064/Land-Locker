@@ -6,6 +6,7 @@ import sellerProfile from "./views/sellerProfile";
 import viewImage from "./views/viewImage";
 import updateSeller from "./views/updateSeller";
 import viewMap from "./views/ViewMap";
+import ownHistory from "./views/ownHistory";
 import Help from "./Help";
 
 // var routes = [
@@ -125,5 +126,13 @@ var routes = [
     component: ApproveRequest,
     layout: "/Seller",
   },
-]
+  {
+    path: "/history",
+    name: "",
+    rtlName: "الرموز",
+    icon: "tim-icons",
+    component: ownHistory,
+    layout: "/Seller",
+  },
+];
 export default routes;

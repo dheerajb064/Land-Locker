@@ -101,6 +101,7 @@ class Dashboard extends Component {
       for (var i = 0; i < count; i++) {
         var paid = await this.state.LandInstance.methods.isPaid(i + 1).call();
         var price = await this.state.LandInstance.methods.getPrice(i + 1).call();
+        if(!paid){
         row.push(<tr><td>{i + 1}</td><td>{dict[i + 1]}</td><td>{price}</td>
           <td>
             <Button onClick={this.makePayment(dict[i + 1], price, i + 1)}
@@ -109,6 +110,7 @@ class Dashboard extends Component {
             </Button>
           </td>
         </tr>)
+        }
 
       }
       console.log(row);
