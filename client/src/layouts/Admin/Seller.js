@@ -13,6 +13,7 @@ import routes from "../../routeseller";
 import Footer from "../../components/Footer/Footer";
 import logo from "../../assets/img/react-logo.png";
 import { BackgroundColorContext } from "../../contexts/BackgroundColorContext";
+import Dashboard from "../../components/UserDashboard/dashboard";
 
 var ps;
 
@@ -90,7 +91,7 @@ function Seller(props) {
       {({ color, changeColor }) => (
         <React.Fragment>
           <div className="wrapper">
-            <Sidebar
+            {/* <Sidebar
               routes={routes}
               logo={{
                 outterLink: "#",
@@ -98,9 +99,9 @@ function Seller(props) {
                 imgSrc: logo,
               }}
               toggleSidebar={toggleSidebar}
-            />
+            /> */}
             <div className="main-panel" ref={mainPanelRef} data={color}>
-            <AdminNavbar
+            {/* <AdminNavbar
                 brandText={getBrandText(location.pathname)}
                 toggleSidebar={toggleSidebar}
                 sidebarOpened={sidebarOpened}
@@ -108,7 +109,8 @@ function Seller(props) {
               <Switch>
                 {getRoutes(routes)}
                 <Redirect from="*" to="/Seller/SellerDashboard" />
-              </Switch>
+              </Switch> */}
+              <Dashboard />
               <Footer fluid />
 
             </div>

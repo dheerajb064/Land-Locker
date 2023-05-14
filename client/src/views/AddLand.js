@@ -2,7 +2,12 @@ import React, { Component } from 'react';
 import LandContract from "../artifacts/Land.json";
 import getWeb3 from "../getWeb3";
 import ipfs from '../ipfs';
-
+import Avatar from '@mui/material/Avatar';
+import { Grid, Paper, Box, Typography } from '@mui/material';
+import { CssBaseline } from '@mui/material';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 import {
   Button,
   Card,
@@ -17,6 +22,8 @@ import {
   Col,
 } from "reactstrap";
 import { Spinner, FormFile } from 'react-bootstrap';
+import { ThemeProvider } from '@mui/material';
+import '../../src/index.css'
 import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -32,8 +39,8 @@ class AddLand extends Component {
       city: '',
       stateLoc: '',
       price: '',
-      lat:'',
-      lng:'',
+      lat: '',
+      lng: '',
       lands: null,
       verficationStatus: false,
       verified: '',
@@ -126,7 +133,7 @@ class AddLand extends Component {
     this.addDoc();
     // alert('After add image')
     await new Promise(resolve => setTimeout(resolve, 15000));
-    if (this.state.area == '' || this.state.city == '' || this.state.stateLoc == '' || this.state.price == '' || this.state.propertyPID == '' || this.state.surveyNum == '' || this.state.lat==''||this.state.lng=='') {
+    if (this.state.area == '' || this.state.city == '' || this.state.stateLoc == '' || this.state.price == '' || this.state.propertyPID == '' || this.state.surveyNum == '' || this.state.lat == '' || this.state.lng == '') {
       alert("All the fields are compulsory!");
     } else if ((!Number(this.state.area)) || (!Number(this.state.price))) {
       alert("Land area and Price of Land must be a number!");
@@ -242,7 +249,7 @@ class AddLand extends Component {
 
     return (
       <div className="content">
-        <Row>
+        {/* <Row>
           <Col md="8">
             <Card>
               <CardHeader>
@@ -400,7 +407,270 @@ class AddLand extends Component {
               </CardFooter>
             </Card>
           </Col>
-        </Row>
+        </Row> */}
+        {/* <Grid container direction="column" alignItems="center" justifyContent="center" >
+          <CssBaseline />
+          <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} >
+            <Box
+              sx={{
+                my: 8,
+                mx: 4,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+              }}
+            >
+              <Typography component="h1" variant="h5">
+                Add Land
+              </Typography>
+              <Box component="form" noValidate sx={{ mt: 1, alignItems: 'center' }} >
+                <TextField
+                  margin="normal"
+                  required
+                  id="Area"
+                  label="Area"
+                  name="Area"
+                  autoFocus
+                  value={this.state.area}
+                  onChange={this.updateArea}
+                />
+                <TextField
+                  margin="normal"
+                  required
+
+                  id="City"
+                  label="City"
+                  name="City"
+                  value={this.state.city}
+                  onChange={this.updateCity}
+                />
+                <TextField
+                  margin="normal"
+                  required
+                  name="State"
+                  label="State"
+                  type="text"
+                  id="state"
+                  value={this.state.state}
+                  onChange={this.updateState}
+                />
+                <TextField
+                  margin="normal"
+                  required
+
+                  id="price"
+                  label="Price"
+                  name="price"
+                  value={this.state.price}
+                  onChange={this.updatePrice}
+                />
+
+                <TextField
+                  margin="normal"
+                  required
+
+                  name="PropertyID"
+                  label="Property ID"
+                  type="text"
+                  id="PPID"
+                  value={this.state.propertyPID}
+                  onChange={this.updatePID}
+                />
+                <TextField
+                  margin="normal"
+                  required
+                  name="Survey Number"
+                  label="Survey Number"
+                  type="text"
+                  id="owned"
+                  value={this.state.surveyNum}
+                  onChange={this.updateSurveyNum}
+                />
+                <TextField
+                  margin="normal"
+                  required
+
+                  name="Latitude"
+                  label="Latitude"
+                  type="text"
+                  id="owned"
+                  value={this.state.lat}
+                  onChange={this.updatelat}
+                />
+                <TextField
+                  margin="normal"
+                  required
+
+                  name="Longitude"
+                  label="Longitude"
+                  type="text"
+                  id="owned"
+                  value={this.state.lng}
+                  onChange={this.updatelng}
+                />
+                <FormGroup className="file-style">
+                  <label>Insert Adhar card document</label>
+                  <FormFile
+                    id="File2"
+                    onChange={this.captureDoc}
+                  />
+                </FormGroup>
+                <Button
+                  onClick={this.addLand}
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 , marginLeft:'80px' }}
+                >
+                  Add Land
+                </Button>
+
+              </Box>
+            </Box>
+          </Grid>
+        </Grid> */}
+        <Grid container spacing={2} sx={{ marginLeft: '20px' }}>
+          <Grid item xs={12} >
+            <Typography component="h1" variant="h5">
+              Add Land
+            </Typography>
+          </Grid>
+          <Grid item xs={5}>
+          <TextField
+                  margin="normal"
+                  fullWidth
+                  required
+                  id="Area"
+                  label="Area"
+                  name="Area"
+                  autoFocus
+                  value={this.state.area}
+                  onChange={this.updateArea}
+                />   
+          </Grid>
+          <Grid item xs={5}>
+          <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="City"
+                  label="City"
+                  name="City"
+                  value={this.state.city}
+                  onChange={this.updateCity}
+                />
+          </Grid>
+          <Grid item xs={5}>
+          <TextField
+                  margin="normal"
+                  fullWidth
+                  required
+                  name="State"
+                  label="State"
+                  type="text"
+                  id="state"
+                  value={this.state.state}
+                  onChange={this.updateState}
+                />
+          </Grid>
+          <Grid item xs={5}>
+          <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  id="price"
+                  label="Price"
+                  name="price"
+                  value={this.state.price}
+                  onChange={this.updatePrice}
+                />
+          </Grid>
+          <Grid item xs={5}>
+          <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="PropertyID"
+                  label="Property ID"
+                  type="text"
+                  id="PPID"
+                  value={this.state.propertyPID}
+                  onChange={this.updatePID}
+                />
+          </Grid>
+          <Grid item xs={5}>
+          <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="Survey Number"
+                  label="Survey Number"
+                  type="text"
+                  id="owned"
+                  value={this.state.surveyNum}
+                  onChange={this.updateSurveyNum}
+                />
+          </Grid>
+          <Grid item xs={5}>
+          <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="Public Key of Nominee"
+                  label="Public key of Nominee"
+                  type="text"
+                  id="owned"
+                  value={this.state.nominee}
+                  onChange={this.updateNominee}
+                />
+          </Grid>
+          <Grid item xs={5}>
+          <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="Latitude"
+                  label="Latitude"
+                  type="text"
+                  id="owned"
+                  value={this.state.lat}
+                  onChange={this.updatelat}
+                />
+          </Grid>
+          <Grid item xs={5}>
+          <TextField
+                  margin="normal"
+                  required
+                  fullWidth
+                  name="Longitude"
+                  label="Longitude"
+                  type="text"
+                  id="owned"
+                  value={this.state.lng}
+                  onChange={this.updatelng}
+                />
+          </Grid>
+          <Grid item xs={10}>
+          <FormGroup className="file-style">
+                  <label>Insert Land document</label>
+                  <FormFile
+                    id="File2"
+                    onChange={this.captureDoc}
+                  />
+                </FormGroup>
+          </Grid>
+          <Grid item xs={5} >
+              
+                
+          <Button
+                  onClick={this.addLand}
+                  variant="contained"
+                  
+                >
+                  Add Land
+                </Button>
+          </Grid>
+          
+        
+        </Grid>
       </div>
     );
 

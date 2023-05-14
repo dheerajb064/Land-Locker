@@ -162,7 +162,6 @@ class LIDashboard extends Component {
                     <div className="content">
                         <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
                             <Grid container spacing={3}>
-                                {/* Chart */}
                                 <Grid item xs={12} md={6} lg={6}>
                                     <Paper
                                         sx={{
@@ -178,9 +177,6 @@ class LIDashboard extends Component {
                                             <h4>{reqsarr}</h4>
                                             <div class="focus-content">
                                                 <Card>
-                                                    {/* <CardHeader>
-                                                        <h5 className="title">Land Transfer Requests</h5>
-                                                    </CardHeader> */}
                                                     <CardBody>
                                                         <div className="chart-area" style={{ textAlign: 'center' }}>
                                                             <Button href="/LI/TransactionInfo" className="btn-fill" color="primary">
@@ -193,7 +189,6 @@ class LIDashboard extends Component {
                                         </div>
                                     </Paper>
                                 </Grid>
-                                {/* Recent Deposits */}
                                 <Grid item xs={12} md={6} lg={6}>
                                     <Paper
                                         sx={{
@@ -203,15 +198,11 @@ class LIDashboard extends Component {
                                             height: 240,
                                         }}
                                     >
-                                        {/* <Deposits /> */}
                                         <div class="card">
                                             <h3>Total Users</h3>
                                             <h4>{sellerarr}</h4>
                                             <div class="focus-content">
                                                 <Card>
-                                                    {/* <CardHeader>
-                                                        <h5 className="title">Land Transfer Requests</h5>
-                                                    </CardHeader> */}
                                                     <CardBody>
                                                         <div className="chart-area" style={{ textAlign: 'center' }}>
 
@@ -225,35 +216,6 @@ class LIDashboard extends Component {
                                         </div>
                                     </Paper>
                                 </Grid>
-                                {/* Recent Orders */}
-                                {/* <Grid item xs={12}>
-                                    <Paper sx={{ p: 2, display: 'flex', flexDirection: 'column' }}>
-                                        <Card>
-                                            <CardHeader>
-                                                <CardTitle tag="h4">User Info
-                                                </CardTitle>
-                                            </CardHeader>
-                                            <CardBody>
-                                                <Table className="tablesorter" responsive color="black">
-                                                    <thead className="text-primary">
-                                                        <tr>
-                                                            <th>#</th>
-                                                            <th>Name</th>
-                                                            <th>Age</th>
-                                                            <th>Aadhar Number</th>
-                                                            <th>Pan Number</th>
-                                                            <th>Lands Owned</th>
-                                                            <th>Deceased</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {row}
-                                                    </tbody>
-                                                </Table>
-                                            </CardBody>
-                                        </Card>
-                                    </Paper>
-                                </Grid> */}
                             </Grid>
                             <Grid item xs={12}>
                                 <Paper sx={{ mt: '20px' }}>
@@ -268,130 +230,10 @@ class LIDashboard extends Component {
                         </Container>
                         <div className="main-section">
                             <Row>
-                                {/* <Col lg="4">
-                                    <div class="dashbord dashbord-skyblue">
-                                        <div class="icon-section">
-                                            <i class="fa fa-users" aria-hidden="true"></i><br />
-                                            <medium>Total Buyers</medium><br />
-                                            <p> {buyerarr} </p>
-                                        </div>
-                                        <div class="detail-section"><br />
-                                        </div>
-                                    </div>
-                                </Col> */}
-                                {/* <Col lg="4">
-                                    <div class="dashbord dashbord-blue">
-                                        <div class="icon-section">
-                                            <i class="fa fa-bell" aria-hidden="true"></i><br />
-                                            <medium>Total Requests</medium><br />
-                                            <p>{reqsarr}</p>
-                                        </div>
-                                        <div class="detail-section">
-                                            <br />
-                                        </div>
-                                    </div>
-                                </Col> */}
-                                {/* <Col lg="4">
-                                    <div class="dashbord dashbord-orange">
-                                        <div class="icon-section">
-                                            <i class="fa fa-users" aria-hidden="true"></i><br />
-                                            <medium>Total Users</medium><br />
-                                            <p>{sellerarr}</p>
-                                        </div>
-                                        <div class="detail-section"><br />
-                                        </div>
-                                    </div>
-                                </Col> */}
                             </Row>
                         </div>
                         <Row>
-                            {/* <Col lg="4">
-                                <div className='card-specific'>
-                                    <Card >
-                                        <CardHeader>
-                                            <h5 className="title">Buyers Information</h5>
-                                        </CardHeader>
-                                        <CardBody>
-                                            <div className="chart-area">
-
-                                                <Button href="/LI/BuyerInfo" className="btn-fill" color="primary">
-                                                    Verify Buyers
-                                                </Button>
-                                            </div>
-                                        </CardBody>
-                                    </Card>
-                                </div>
-                            </Col> */}
-                            {/* <Col lg="4">
-                                <div className='card-specific'>
-                                    <Card>
-                                        <CardHeader>
-                                            <h5 className="title">Land Transfer Requests</h5>
-                                        </CardHeader>
-                                        <CardBody>
-                                            <div className="chart-area">
-
-                                                <Button href="/LI/TransactionInfo" className="btn-fill" color="primary">
-                                                    Approve Land Transactions
-                                                </Button>
-                                            </div>
-                                        </CardBody>
-                                    </Card>
-                                </div>
-                            </Col> */}
-                            {/* <Col lg="4">
-                                <div className='card-specific'>
-                                    <Card>
-                                        <CardHeader>
-                                            <h5 className="title">User's Information</h5>
-                                        </CardHeader>
-                                        <CardBody>
-                                            <div className="chart-area">
-
-                                                <Button href="/LI/SellerInfo" className="btn-fill" color="primary">
-                                                    Verify Users
-                                                </Button>
-                                            </div>
-                                        </CardBody>
-                                    </Card>
-                                </div>
-                            </Col> */}
                         </Row>
-
-
-                        <DrizzleProvider options={drizzleOptions}>
-                            <LoadingContainer>
-                                <Row>
-                                    <Col lg="12" md="12">
-                                        {/* <Card>
-                                            <CardHeader>
-                                                <CardTitle tag="h4">User Info
-                                                </CardTitle>
-                                            </CardHeader>
-                                            <CardBody>
-                                                <Table className="tablesorter" responsive color="black">
-                                                    <thead className="text-primary">
-                                                        <tr>
-                                                            <th>#</th>
-                                                            <th>Name</th>
-                                                            <th>Age</th>
-                                                            <th>Aadhar Number</th>
-                                                            <th>Pan Number</th>
-                                                            <th>Lands Owned</th>
-                                                            <th>Deceased</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {row}
-                                                    </tbody>
-                                                </Table>
-                                            </CardBody>
-                                        </Card> */}
-                                    </Col>
-                                </Row>
-                            </LoadingContainer>
-                        </DrizzleProvider>
-
                     </div>
                 </LoadingContainer>
             </DrizzleProvider>
