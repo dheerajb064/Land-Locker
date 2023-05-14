@@ -124,7 +124,7 @@ function Row(props) {
   export default function CollapsibleTable(props) {
     const historyData = props.historyData
     const landData = props.landData
-    console.log(historyData , landData)
+    // console.log(historyData , landData)
     return (
       <TableContainer component={Paper}>
         <Table aria-label="collapsible table">
@@ -135,15 +135,14 @@ function Row(props) {
               <TableCell align="right">City</TableCell>
               <TableCell align="right">State</TableCell>
               <TableCell align="right">Price</TableCell>
-              <TableCell align="right">Property ID</TableCell>
-              <TableCell align="right">Survey Number</TableCell>
-              {/* <TableCell align="right">Ownership History</TableCell> */}
+              <TableCell align="right">Latitude</TableCell>
+              <TableCell align="right">Longitude</TableCell>
               <TableCell align="right">Reciept</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {landData.map((row) => (
-              <Row key={row[0]} row={row} historyData={historyData} />
+            {landData.map((row,index) => (
+              <Row key={row[0]} row={row} historyData={historyData[index]} />
             ))}
           </TableBody>
         </Table>

@@ -54,6 +54,12 @@ export const mainListItems = (
             </ListItemIcon>
             <ListItemText primary="TRANSACTIONS" />
         </ListItemButton>
+        <ListItemButton href="/LI/ViewLands">
+            <ListItemIcon>
+                <PaidTwoToneIcon color="secondary" />
+            </ListItemIcon>
+            <ListItemText primary="VIEW LANDS" />
+        </ListItemButton>
     </React.Fragment >
 
 );
