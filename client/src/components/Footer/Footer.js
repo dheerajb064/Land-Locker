@@ -42,7 +42,7 @@ function Footer() {
             </NavLink>
           </NavItem>
         </Nav> */}
-        <div className="copyright">
+        {/* <div className="copyright">
           © {new Date().getFullYear()} made with{" "}
           <i className="tim-icons icon-heart-2" /> for{" "}
           <a
@@ -52,7 +52,7 @@ function Footer() {
             Land Registration
           </a>{" "}
           for a Step towards Digitalization.
-        </div>
+        </div> */}
       </Container>
     </footer>
   );

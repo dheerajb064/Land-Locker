@@ -74,6 +74,7 @@ class OwnedLands extends Component {
       amount: 0,
       landData: [],
       ownerData :[] ,
+      ownerDataArray:[],
     };
   }
 
@@ -278,6 +279,7 @@ class OwnedLands extends Component {
           // getting ownership history
           var ownCount=await this.state.LandInstance.methods.getOwnerCount(i + 1).call();
           var row;
+          this.setState({ownerData: []})
           for(var j=0;j<ownCount;j++)
           {
             row=await this.state.LandInstance.methods.getOwnerDetails(i+1,j).call();
@@ -285,6 +287,7 @@ class OwnedLands extends Component {
             console.log(row);
             this.setState({ ownerData: [...this.state.ownerData , row] });
           }
+          this.setState({ownerDataArray: [...this.state.ownerDataArray , this.state.ownerData]})
           
           console.log(this.state.ownerData);
 
@@ -395,14 +398,14 @@ class OwnedLands extends Component {
 
     return (
       <>
-        <div style={{ paddingTop: '200px' }}>
+        <div>
           <Grid item xs={12}>
             <Paper sx={{ mt: '200px' }}>
               <div className="card-sub">
                 <h3>User Info</h3>
               </div>
               <Divider />
-              <TableComponent historyData={this.state.ownerData} landData = {this.state.landData} />
+              <TableComponent historyData={this.state.ownerDataArray} landData = {this.state.landData} />
             </Paper>
 
           </Grid>
