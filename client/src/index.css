@@ -489,3 +489,8 @@ body, html, .App, #root, .auth-wrapper {
   height: 100px;
   width: 500px;
 }
+
+.file-style
+{
+  margin-left: 80px;
+}
