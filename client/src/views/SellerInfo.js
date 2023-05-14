@@ -12,6 +12,8 @@ import '../../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import Land from "../artifacts/Land.json";
 import getWeb3 from "../getWeb3";
 import '../index.css';
+import { Grid , Paper , Divider } from '@material-ui/core';
+import TableComponent from '../views/TableSellerInfo'
 
 
 const drizzleOptions = {
@@ -22,6 +24,7 @@ const drizzleOptions = {
 var sellersCount;
 var sellersMap = [];
 var sellerTable = [];
+var data = [];
 
 class SellerInfo extends Component {
     constructor(props) {
@@ -34,6 +37,7 @@ class SellerInfo extends Component {
             sellers: 0,
             verified: '',
             not_verified: '',
+            sellerData: [],
         }
     }
 
@@ -126,6 +130,21 @@ class SellerInfo extends Component {
                                 Reject
                             </Button>
                         </td></tr>)
+
+
+                    data = await this.state.LandInstance.methods.getSellerDetails(sellersMap[i]).call();
+                    data[5] = <a href={seller[5]} target="_blank">Click Here</a>
+                    data[6] = i + 1;
+                    data[7] = sellersMap[i];
+                    data[8] = seller.verified.toString()
+                    data[9] = <Button onClick={this.verifySeller(sellersMap[i])} disabled={seller_verify || not_verify} className="button-vote">
+                        Verify
+                    </Button>
+                    data[10] = <Button onClick={this.NotverifySeller(sellersMap[i])} disabled={seller_verify || not_verify} className="btn btn-danger">
+                        Reject
+                    </Button>
+                    this.setState({sellerData: [...this.state.sellerData , data]});
+
                 }
 
                 console.log(seller[5]);
@@ -183,46 +202,60 @@ class SellerInfo extends Component {
         }
 
         return (
-            <DrizzleProvider options={drizzleOptions}>
-                <LoadingContainer>
-                    <div className="content">
-                        <Row>
-                            <Col xs="12">
-                                <Card>
-                                    <CardHeader>
-                                        <CardTitle tag="h4">User Info</CardTitle>
-                                    </CardHeader>
-                                    <CardBody>
-                                        <Table className="tablesorter" responsive color="black">
-                                            <thead className="text-primary">
-                                                <tr>
-                                                    <th>#</th>
-                                                    <th>Account Address</th>
-                                                    <th>Name</th>
-                                                    <th>Age</th>
-                                                    <th>Aadhar Number</th>
-                                                    <th>Pan Number</th>
-                                                    <th>Owned Lands</th>
-                                                    <th>Aadhar Card Document</th>
-                                                    <th>Verification Status</th>
-                                                    <th>Verify Seller</th>
-                                                    <th>Reject Seller</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                {sellerTable}
-                                            </tbody>
+            // <DrizzleProvider options={drizzleOptions}>
+            //     <LoadingContainer>
+            //         <div className="content">
+            //             <Row>
+            //                 <Col xs="12">
+            //                     <Card>
+            //                         <CardHeader>
+            //                             <CardTitle tag="h4">User Info</CardTitle>
+            //                         </CardHeader>
+            //                         <CardBody>
+            //                             <Table className="tablesorter" responsive color="black">
+            //                                 <thead className="text-primary">
+            //                                     <tr>
+            //                                         <th>#</th>
+            //                                         <th>Account Address</th>
+            //                                         <th>Name</th>
+            //                                         <th>Age</th>
+            //                                         <th>Aadhar Number</th>
+            //                                         <th>Pan Number</th>
+            //                                         <th>Owned Lands</th>
+            //                                         <th>Aadhar Card Document</th>
+            //                                         <th>Verification Status</th>
+            //                                         <th>Verify Seller</th>
+            //                                         <th>Reject Seller</th>
+            //                                     </tr>
+            //                                 </thead>
+            //                                 <tbody>
+            //                                     {sellerTable}
+            //                                 </tbody>
 
-                                        </Table>
-                                    </CardBody>
-                                </Card>
-                            </Col>
-                        </Row>
+            //                             </Table>
+            //                         </CardBody>
+            //                     </Card>
+            //                 </Col>
+            //             </Row>
 
 
-                    </div>
-                </LoadingContainer>
-            </DrizzleProvider>
+            //         </div>
+            //     </LoadingContainer>
+            // </DrizzleProvider>
+            <>
+        <div>
+          <Grid item xs={12}>
+            <Paper sx={{ mt: '200px' }}>
+              <div className="card-sub">
+                <h3>User Info</h3>
+              </div>
+              <Divider />
+              <TableComponent sellerData={this.state.sellerData} />
+            </Paper>
+
+          </Grid>
+        </div>
+      </>
         );
 
     }
